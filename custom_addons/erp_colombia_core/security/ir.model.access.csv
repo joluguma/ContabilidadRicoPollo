@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_erp_colombia_audit_log_admin,erp.colombia.audit.log admin,model_erp_colombia_audit_log,group_erp_admin,1,0,0,0
+access_erp_colombia_audit_log_auditor,erp.colombia.audit.log auditor,model_erp_colombia_audit_log,group_erp_auditor,1,0,0,0

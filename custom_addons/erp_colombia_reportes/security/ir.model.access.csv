@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_erp_colombia_kardex_wizard,erp.colombia.kardex.wizard,model_erp_colombia_kardex_wizard,stock.group_stock_user,1,1,1,1
+access_erp_colombia_kardex_line,erp.colombia.kardex.line,model_erp_colombia_kardex_line,stock.group_stock_user,1,1,1,1

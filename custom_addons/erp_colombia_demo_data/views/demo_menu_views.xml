@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_erp_colombia_herramientas"
+              name="Herramientas"
+              parent="erp_colombia_core.menu_erp_colombia_root"
+              sequence="90"/>
+
+    <menuitem id="menu_erp_colombia_demo_batch"
+              name="Generador de datos DEMO"
+              parent="menu_erp_colombia_herramientas"
+              action="action_erp_colombia_demo_batch"
+              sequence="10"/>
+
+    <menuitem id="menu_erp_colombia_demo_cleanup"
+              name="Eliminar datos DEMO"
+              parent="menu_erp_colombia_herramientas"
+              action="action_erp_colombia_demo_cleanup_wizard"
+              sequence="20"/>
+</odoo>

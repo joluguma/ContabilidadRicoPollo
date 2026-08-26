@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_erp_colombia_audit_log_list" model="ir.ui.view">
+        <field name="name">erp.colombia.audit.log.list</field>
+        <field name="model">erp.colombia.audit.log</field>
+        <field name="arch" type="xml">
+            <list string="Auditoría" create="false" edit="false" delete="false">
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="model_name"/>
+                <field name="document_ref"/>
+                <field name="action"/>
+                <field name="field_name"/>
+                <field name="old_value"/>
+                <field name="new_value"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_erp_colombia_audit_log_form" model="ir.ui.view">
+        <field name="name">erp.colombia.audit.log.form</field>
+        <field name="model">erp.colombia.audit.log</field>
+        <field name="arch" type="xml">
+            <form string="Auditoría" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                        <field name="model_name"/>
+                        <field name="res_id"/>
+                        <field name="document_ref"/>
+                        <field name="action"/>
+                    </group>
+                    <group>
+                        <field name="field_name"/>
+                        <field name="old_value"/>
+                        <field name="new_value"/>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_erp_colombia_audit_log_search" model="ir.ui.view">
+        <field name="name">erp.colombia.audit.log.search</field>
+        <field name="model">erp.colombia.audit.log</field>
+        <field name="arch" type="xml">
+            <search string="Buscar auditoría">
+                <field name="model_name"/>
+                <field name="user_id"/>
+                <field name="document_ref"/>
+                <filter string="Creaciones" name="filter_create" domain="[('action', '=', 'create')]"/>
+                <filter string="Cambios de estado" name="filter_state_change" domain="[('action', '=', 'state_change')]"/>
+                <filter string="Eliminaciones" name="filter_unlink" domain="[('action', '=', 'unlink')]"/>
+                <group>
+                    <filter string="Modelo" name="group_by_model" context="{'group_by': 'model_name'}"/>
+                    <filter string="Usuario" name="group_by_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Acción" name="group_by_action" context="{'group_by': 'action'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_erp_colombia_audit_log" model="ir.actions.act_window">
+        <field name="name">Auditoría</field>
+        <field name="res_model">erp.colombia.audit.log</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_erp_colombia_audit"
+              name="Auditoría"
+              parent="menu_erp_colombia_root"
+              action="action_erp_colombia_audit_log"
+              sequence="80"
+              groups="erp_colombia_core.group_erp_admin,erp_colombia_core.group_erp_auditor"/>
+</odoo>

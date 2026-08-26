@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_erp_colombia" model="ir.module.category">
+        <field name="name">ERP Colombia</field>
+        <field name="sequence">1</field>
+    </record>
+
+    <record id="privilege_erp_colombia" model="res.groups.privilege">
+        <field name="name">ERP Colombia</field>
+        <field name="category_id" ref="module_category_erp_colombia"/>
+        <field name="sequence">1</field>
+    </record>
+
+    <record id="group_erp_admin" model="res.groups">
+        <field name="name">Administrador</field>
+        <field name="privilege_id" ref="privilege_erp_colombia"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Administra la configuración transversal y la auditoría de ERP Colombia.</field>
+    </record>
+
+    <record id="group_erp_auditor" model="res.groups">
+        <field name="name">Auditor</field>
+        <field name="privilege_id" ref="privilege_erp_colombia"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Solo lectura sobre el registro de auditoría de ERP Colombia.</field>
+    </record>
+
+    <!-- Cualquier Administrador de Odoo (Ajustes) es automáticamente
+         Administrador de ERP Colombia, para no dejar la app invisible
+         por falta de asignación manual del grupo. -->
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_erp_admin'))]"/>
+    </record>
+</odoo>

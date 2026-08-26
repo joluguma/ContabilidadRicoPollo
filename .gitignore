@@ -1,0 +1,41 @@
+# --- Código vendido/oficial de Odoo: no es nuestro, tiene su propio repo ---
+# (github.com/odoo/odoo). No lo versionamos aquí.
+/odoo/
+/addons/
+/debian/
+/doc/
+/setup/
+/odoo-bin
+/requirements.txt
+/setup.py
+/setup.cfg
+/MANIFEST.in
+/ruff.toml
+/.weblate.json
+/.github/
+/CONTRIBUTING.md
+/COPYRIGHT
+/LICENSE
+/README.md
+/SECURITY.md
+
+# --- Referencias externas OCA clonadas (se reobtienen con scripts/fetch_oca.sh) ---
+/custom_addons/oca_l10n_colombia/
+/custom_addons/oca_account_financial_reporting/
+/custom_addons/oca_deps/
+
+# --- Entorno local / datos / secretos ---
+/venv/
+/.local/
+/.local_demo/
+/odoo.conf
+/odoo_demo.conf
+/odoo.pid
+/odoo_demo.pid
+*.log
+__pycache__/
+*.pyc
+.DS_Store
+
+# --- Backups locales ---
+/backups/

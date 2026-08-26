@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_erp_colombia_reportes"
+              name="Reportes"
+              parent="erp_colombia_core.menu_erp_colombia_root"
+              sequence="70"/>
+
+    <menuitem id="menu_erp_colombia_kardex"
+              name="Kardex"
+              parent="menu_erp_colombia_reportes"
+              action="action_erp_colombia_kardex_wizard"
+              sequence="10"/>
+
+    <menuitem id="menu_erp_colombia_kardex_stock"
+              name="Kardex"
+              parent="stock.menu_warehouse_report"
+              action="action_erp_colombia_kardex_wizard"
+              sequence="50"/>
+</odoo>

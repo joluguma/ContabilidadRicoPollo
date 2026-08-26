@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_erp_colombia_kardex_xlsx" model="ir.actions.report">
+        <field name="name">Kardex (Excel)</field>
+        <field name="model">erp.colombia.kardex.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">erp_colombia_reportes.erp_colombia_kardex_xlsx</field>
+        <field name="report_file">erp_colombia_reportes.erp_colombia_kardex_xlsx</field>
+    </record>
+
+    <record id="view_erp_colombia_kardex_wizard_form" model="ir.ui.view">
+        <field name="name">erp.colombia.kardex.wizard.form</field>
+        <field name="model">erp.colombia.kardex.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Kardex">
+                <group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="product_id"/>
+                        <field name="warehouse_id"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="saldo_inicial_cantidad" readonly="1"
+                               invisible="not line_ids"/>
+                        <field name="saldo_inicial_valor" readonly="1"
+                               invisible="not line_ids"/>
+                    </group>
+                </group>
+                <field name="line_ids" readonly="1">
+                    <list create="false" delete="false" edit="false">
+                        <field name="date"/>
+                        <field name="document"/>
+                        <field name="move_type"/>
+                        <field name="warehouse"/>
+                        <field name="entrada"/>
+                        <field name="salida"/>
+                        <field name="saldo_cantidad"/>
+                        <field name="costo_unitario"/>
+                        <field name="costo_total"/>
+                        <field name="saldo_valor"/>
+                    </list>
+                </field>
+                <footer>
+                    <button string="Generar" name="button_generate" type="object"
+                            class="btn-primary"/>
+                    <button string="Exportar a Excel" name="action_export_xlsx"
+                            type="object" class="btn-secondary"
+                            invisible="not line_ids"/>
+                    <button string="Cerrar" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_erp_colombia_kardex_wizard" model="ir.actions.act_window">
+        <field name="name">Kardex</field>
+        <field name="res_model">erp.colombia.kardex.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

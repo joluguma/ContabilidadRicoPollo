@@ -1,0 +1,17 @@
+[options]
+addons_path = addons,custom_addons,custom_addons/oca_l10n_colombia,custom_addons/oca_account_financial_reporting,custom_addons/oca_deps
+data_dir = .local
+db_host = localhost
+db_port = 5432
+db_user = odoo
+db_password = CHANGE_ME
+http_port = 8069
+http_interface = 127.0.0.1
+admin_passwd = CHANGE_ME_TOO
+
+; --- Antes de producción, además agrega: ---
+; list_db = False                 ; oculta el selector de bases de datos
+; workers = 4                     ; multiproceso (ver docs de Odoo para el cálculo)
+; max_cron_threads = 1
+; logfile = /var/log/odoo/odoo.log
+; proxy_mode = True               ; si corre detrás de Nginx/Apache

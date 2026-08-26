@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_erp_colombia" model="ir.ui.view">
+        <field name="name">res.partner.form.erp.colombia</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="l10n_co_verification_digit" string="DV" readonly="1"
+                       invisible="not l10n_co_verification_digit"/>
+            </field>
+            <div class="d-flex flex-column flex-grow-1" position="inside">
+                <field name="trade_name" placeholder="Nombre comercial" invisible="not is_company"
+                       class="text-muted"/>
+            </div>
+        </field>
+    </record>
+</odoo>

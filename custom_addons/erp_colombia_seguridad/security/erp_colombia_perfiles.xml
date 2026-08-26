@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="privilege_erp_colombia_perfiles" model="res.groups.privilege">
+        <field name="name">ERP Colombia - Perfiles</field>
+        <field name="category_id" ref="erp_colombia_core.module_category_erp_colombia"/>
+        <field name="sequence">2</field>
+    </record>
+
+    <!-- El perfil "Administrador" de ERP Colombia también da acceso
+         técnico completo de Odoo (Ajustes), no solo a la app ERP
+         Colombia (erp_colombia_core ya hace lo inverso: quien es
+         Administrador técnico de Odoo, ya es Administrador ERP
+         Colombia). -->
+    <record id="erp_colombia_core.group_erp_admin" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>
+    </record>
+
+    <record id="group_erp_contador" model="res.groups">
+        <field name="name">Contador</field>
+        <field name="privilege_id" ref="privilege_erp_colombia_perfiles"/>
+        <field name="implied_ids" eval="[(4, ref('account.group_account_manager'))]"/>
+        <field name="comment">Acceso completo a contabilidad, incluida su configuración.</field>
+    </record>
+
+    <record id="group_erp_auxiliar_contable" model="res.groups">
+        <field name="name">Auxiliar contable</field>
+        <field name="privilege_id" ref="privilege_erp_colombia_perfiles"/>
+        <field name="implied_ids" eval="[(4, ref('account.group_account_user'))]"/>
+        <field name="comment">Contabilidad completa para el día a día, sin acceso a la configuración fiscal.</field>
+    </record>
+
+    <record id="group_erp_facturacion" model="res.groups">
+        <field name="name">Facturación</field>
+        <field name="privilege_id" ref="privilege_erp_colombia_perfiles"/>
+        <field name="implied_ids" eval="[(4, ref('account.group_account_invoice'))]"/>
+        <field name="comment">Solo facturas de cliente/proveedor y pagos, sin el resto de contabilidad.</field>
+    </record>
+
+    <record id="group_erp_inventario" model="res.groups">
+        <field name="name">Inventario</field>
+        <field name="privilege_id" ref="privilege_erp_colombia_perfiles"/>
+        <field name="implied_ids" eval="[(4, ref('stock.group_stock_manager'))]"/>
+        <field name="comment">Gestión completa de bodegas, movimientos y ajustes de inventario.</field>
+    </record>
+
+    <record id="group_erp_compras" model="res.groups">
+        <field name="name">Compras</field>
+        <field name="privilege_id" ref="privilege_erp_colombia_perfiles"/>
+        <field name="implied_ids" eval="[(4, ref('purchase.group_purchase_manager'))]"/>
+        <field name="comment">Gestión completa de órdenes y proveedores.</field>
+    </record>
+
+    <record id="group_erp_ventas" model="res.groups">
+        <field name="name">Ventas</field>
+        <field name="privilege_id" ref="privilege_erp_colombia_perfiles"/>
+        <field name="implied_ids" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+        <field name="comment">Gestión completa de cotizaciones, pedidos y equipos de venta.</field>
+    </record>
+
+    <record id="group_erp_consulta" model="res.groups">
+        <field name="name">Consulta</field>
+        <field name="privilege_id" ref="privilege_erp_colombia_perfiles"/>
+        <field name="implied_ids" eval="[(4, ref('account.group_account_readonly'))]"/>
+        <field name="comment">Solo lectura de contabilidad. Odoo no ofrece un grupo nativo de solo lectura para ventas/compras/inventario; para esos módulos, un usuario sin el grupo de gestión ya no puede editar, pero tampoco ve los documentos de otros por defecto (limitación del modelo nativo de permisos, no de este perfil).</field>
+    </record>
+</odoo>

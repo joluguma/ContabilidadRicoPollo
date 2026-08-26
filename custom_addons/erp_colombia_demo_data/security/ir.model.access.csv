@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_erp_colombia_demo_batch,erp.colombia.demo.batch,model_erp_colombia_demo_batch,erp_colombia_core.group_erp_admin,1,1,1,1
+access_erp_colombia_demo_cleanup_wizard,erp.colombia.demo.cleanup.wizard,model_erp_colombia_demo_cleanup_wizard,erp_colombia_core.group_erp_admin,1,1,1,1

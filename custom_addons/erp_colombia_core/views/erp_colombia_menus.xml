@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_erp_colombia_root" name="ERP Colombia" sequence="1"/>
+</odoo>
