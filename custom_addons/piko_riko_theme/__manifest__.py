@@ -52,6 +52,13 @@ Fase 3 (probada en demo, DESCARTADA a pedido del cliente):
     estándar de Odoo. Código removido de este módulo; si se retoma más
     adelante, ver el historial de este archivo.
 
+Fase 3.1:
+  * Se oculta la app "Discuss" (Conversaciones) del selector de apps y
+    del menú superior — no se usará por ahora. La mensajería interna,
+    el chatter y las notificaciones NO se desactivan (siguen
+    funcionando igual); solo desaparece como app independiente. Es
+    reversible.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -59,11 +66,12 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
 """,
     'author': 'Piko Riko',
     'license': 'LGPL-3',
-    'depends': ['web', 'sale', 'purchase', 'account', 'stock'],
+    'depends': ['web', 'sale', 'purchase', 'account', 'stock', 'mail'],
     'data': [
         'views/dashboard_menu.xml',
         'views/login_templates.xml',
         'data/paperformat_receipt.xml',
+        'data/hide_discuss_menu.xml',
         'report/receipt_invoice_report.xml',
     ],
     'assets': {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Oculta la app "Discuss" (Conversaciones) del selector de apps y
+         del menú superior: no se usará por ahora. Esto NO desactiva la
+         mensajería interna — el chatter de facturas/cotizaciones, las
+         notificaciones y los canales siguen funcionando igual; solo
+         desaparece la app como punto de entrada independiente. Es
+         reversible: basta con volver a poner active=True aquí. -->
+    <record id="mail.menu_root_discuss" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+</odoo>
