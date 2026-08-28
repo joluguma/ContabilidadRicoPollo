@@ -39,6 +39,12 @@ Fase 2.3:
   * Impresión de facturas en tirilla térmica de 80mm, como opción
     adicional junto al PDF normal (menú Imprimir de la factura).
 
+Fase 2.4:
+  * Reintento automático (hasta 3 veces) cuando wkhtmltopdf falla con
+    el código -11 (segfault intermitente por correr traducido con
+    Rosetta 2 en Apple Silicon, sin build nativo disponible) — el
+    usuario ya no tiene que darle "Imprimir" de nuevo a mano.
+
 Fase 3 (probada en demo, DESCARTADA a pedido del cliente):
   * Se construyó una barra lateral de navegación colapsable como
     reemplazo de la barra horizontal nativa de Odoo. El cliente revisó
