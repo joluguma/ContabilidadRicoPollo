@@ -1,0 +1,34 @@
+// Piko Riko — pulido visual del backend (fase 1: solo apariencia).
+// Deliberadamente conservador: sin gradientes, sin sombras fuertes,
+// sin animaciones — ver criterios de la fase 1 en el manifest.
+
+.btn {
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.btn:disabled, .btn.disabled {
+    box-shadow: none;
+}
+
+// Pestañas / filtros activos (kanban, listas): usar el amarillo de
+// marca como acento sutil en vez del morado por defecto de Odoo.
+.o_kanban_view .o_kanban_record.o_kanban_selected,
+.nav-pills .nav-link.active {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+// Barra superior de la aplicación: fondo neutro oscuro (no amarillo
+// pleno) para mantener la lectura profesional pedida — el amarillo
+// queda como acento en botones y estados, no como fondo masivo.
+.o_main_navbar {
+    background-color: $o-gray-900;
+}
+
+// Fondo general de la plataforma: gris muy claro (identidad Rico
+// Pollo), con las vistas (listas, formularios, kanban) quedando como
+// "tarjetas" blancas sobre ese fondo — Odoo ya las pinta blancas por
+// defecto, así que basta con oscurecer el fondo detrás de ellas.
+.o_action_manager, .o_content {
+    background-color: #F7F7F7;
+}

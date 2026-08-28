@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="login_layout_piko_riko" inherit_id="web.login_layout">
+        <xpath expr="//a[contains(@href, 'odoo.com')]" position="replace">
+            <span>Piko Riko</span>
+        </xpath>
+    </template>
+</odoo>

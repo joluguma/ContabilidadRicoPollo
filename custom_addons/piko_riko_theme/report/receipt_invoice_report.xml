@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_receipt_document">
+        <t t-foreach="docs" t-as="o">
+            <!-- Tirilla independiente: no usa web.external_layout (pensado
+                 para A4) — se arma desde cero, angosta y sin adornos, para
+                 que se vea bien en una impresora térmica de 80mm. -->
+            <div class="page piko_riko_receipt">
+                <style>
+                    .piko_riko_receipt { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 11px; color: #000; width: 100%; }
+                    .piko_riko_receipt .center { text-align: center; }
+                    .piko_riko_receipt .logo { max-width: 55mm; max-height: 25mm; margin: 0 auto 4px auto; display: block; }
+                    .piko_riko_receipt hr { border: none; border-top: 1px dashed #000; margin: 6px 0; }
+                    .piko_riko_receipt table { width: 100%; border-collapse: collapse; }
+                    .piko_riko_receipt td, .piko_riko_receipt th { padding: 1px 0; vertical-align: top; }
+                    .piko_riko_receipt .right { text-align: right; }
+                    .piko_riko_receipt .small { font-size: 9px; }
+                    .piko_riko_receipt .bold { font-weight: bold; }
+                    .piko_riko_receipt .line_desc { padding-top: 3px; }
+                </style>
+
+                <div class="center">
+                    <img class="logo" t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"/>
+                    <div class="bold" t-field="o.company_id.name"/>
+                    <div t-field="o.company_id.street"/>
+                    <div>
+                        <span t-field="o.company_id.city"/><t t-if="o.company_id.city and o.company_id.phone">, </t>
+                        <span t-field="o.company_id.phone"/>
+                    </div>
+                    <div t-if="o.company_id.vat">NIT: <span t-field="o.company_id.vat"/></div>
+                </div>
+
+                <hr/>
+
+                <div>
+                    <span class="bold" t-esc="'Factura' if o.move_type == 'out_invoice' else 'Nota de crédito'"/>
+                    <span class="bold" t-field="o.name"/>
+                </div>
+                <div>Fecha: <span t-field="o.invoice_date"/></div>
+                <div>Cliente: <span t-field="o.partner_id.name"/></div>
+                <div t-if="o.partner_id.vat">NIT/CC: <span t-field="o.partner_id.vat"/></div>
+
+                <hr/>
+
+                <table>
+                    <t t-foreach="o.invoice_line_ids.filtered(lambda l: l.display_type == 'product')" t-as="line">
+                        <tr>
+                            <td colspan="3" class="line_desc"><span t-field="line.name"/></td>
+                        </tr>
+                        <tr>
+                            <td class="small"><t t-esc="'%s x %s' % (line.quantity, line.price_unit)"/></td>
+                            <td class="small right"/>
+                            <td class="right"><span t-field="line.price_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                        </tr>
+                    </t>
+                </table>
+
+                <hr/>
+
+                <table>
+                    <tr>
+                        <td>Subtotal</td>
+                        <td class="right"><span t-field="o.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                    </tr>
+                    <tr t-if="o.amount_tax">
+                        <td>IVA</td>
+                        <td class="right"><span t-field="o.amount_tax" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                    </tr>
+                    <tr class="bold">
+                        <td>TOTAL</td>
+                        <td class="right"><span t-field="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                    </tr>
+                </table>
+
+                <hr/>
+
+                <div class="center small">
+                    <div>¡Gracias por su compra!</div>
+                    <div t-esc="o.company_id.name"/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_invoice_receipt">
+        <t t-call="web.basic_layout">
+            <t t-call="piko_riko_theme.report_invoice_receipt_document"/>
+        </t>
+    </template>
+
+    <record id="action_report_invoice_receipt" model="ir.actions.report">
+        <field name="name">Factura - Tirilla 80mm</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">piko_riko_theme.report_invoice_receipt</field>
+        <field name="report_file">piko_riko_theme.report_invoice_receipt</field>
+        <field name="print_report_name">'Tirilla - %s' % (object.name or '')</field>
+        <field name="paperformat_id" ref="paperformat_receipt_80mm"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

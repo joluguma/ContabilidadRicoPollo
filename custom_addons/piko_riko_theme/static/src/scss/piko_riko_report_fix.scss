@@ -1,0 +1,33 @@
+// wkhtmltopdf (el motor, basado en un WebKit muy antiguo y sin
+// mantenimiento desde ~2020, que Odoo Community usa para generar PDFs)
+// no calcula bien el layout con flexbox. Confirmado con pruebas
+// aisladas: "flex-basis: 0%" (lo que usa Bootstrap 5 en ".row > .col")
+// produce anchos de más de 50.000px; incluso corrigiendo eso, columnas
+// vecinas (ej. datos de la empresa vs. datos del cliente en una
+// cotización) terminan con el texto de la etiqueta y el valor
+// superpuestos entre sí. Se ve perfecto en cualquier navegador real
+// (por eso no se notaba hasta que se instaló wkhtmltopdf).
+//
+// La única corrección confiable encontrada: no depender de flexbox en
+// el PDF. Se reemplaza por flujo de bloque normal (columnas apiladas
+// una debajo de otra en vez de lado a lado) — visualmente más simple,
+// pero legible y sin texto superpuesto, que es lo que importa en un
+// documento que se envía a un cliente.
+//
+// Este archivo SOLO se agrega al bundle de reportes (nunca al backend
+// web, que no lo necesita porque los navegadores reales sí soportan
+// flexbox correctamente).
+.row {
+    display: block !important;
+}
+
+.row > .col,
+.row > [class*="col-"] {
+    display: block !important;
+    width: auto !important;
+    flex-basis: auto !important;
+}
+
+.d-flex {
+    display: block !important;
+}

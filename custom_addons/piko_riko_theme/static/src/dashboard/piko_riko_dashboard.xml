@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="piko_riko_theme.Dashboard">
+        <div class="o_piko_riko_dashboard p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">Dashboard</h2>
+                <button class="btn btn-secondary btn-sm" t-on-click="loadKpis">
+                    <i class="fa fa-refresh me-1"/> Actualizar
+                </button>
+            </div>
+
+            <div t-if="state.loading" class="text-muted">Cargando indicadores…</div>
+
+            <div t-else="" class="o_piko_riko_kpi_grid">
+                <t t-foreach="cards" t-as="card" t-key="card.key">
+                    <div t-attf-class="o_piko_riko_kpi_card {{ card.tone ? 'o_piko_riko_kpi_' + card.tone : '' }}">
+                        <div class="o_piko_riko_kpi_icon">
+                            <i t-attf-class="fa {{ card.icon }}"/>
+                        </div>
+                        <div class="o_piko_riko_kpi_body">
+                            <div class="o_piko_riko_kpi_label" t-esc="card.label"/>
+                            <div class="o_piko_riko_kpi_value">
+                                <t t-esc="card.value"/>
+                                <span t-if="card.suffix" class="o_piko_riko_kpi_suffix" t-esc="card.suffix"/>
+                            </div>
+                            <div t-if="card.variation !== undefined and card.variation !== null"
+                                 t-attf-class="o_piko_riko_kpi_variation {{ card.variation >= 0 ? 'o_piko_riko_kpi_positive' : 'o_piko_riko_kpi_negative' }}">
+                                <i t-attf-class="fa {{ card.variation >= 0 ? 'fa-caret-up' : 'fa-caret-down' }}"/>
+                                <t t-esc="Math.abs(card.variation)"/>% vs. mes anterior
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

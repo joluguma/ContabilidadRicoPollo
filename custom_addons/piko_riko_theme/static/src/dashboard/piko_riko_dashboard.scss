@@ -1,0 +1,79 @@
+.o_piko_riko_kpi_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.o_piko_riko_kpi_card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    background: $o-white;
+    border: 1px solid $o-gray-200;
+    border-radius: 0.75rem;
+    padding: 1.1rem 1.2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.o_piko_riko_kpi_icon {
+    width: 2.6rem;
+    height: 2.6rem;
+    min-width: 2.6rem;
+    border-radius: 0.6rem;
+    background: rgba($o-brand-primary, 0.14);
+    color: darken($o-brand-primary, 15%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+}
+
+.o_piko_riko_kpi_warning .o_piko_riko_kpi_icon {
+    background: rgba($o-danger, 0.12);
+    color: $o-danger;
+}
+
+.o_piko_riko_kpi_negative .o_piko_riko_kpi_icon {
+    background: rgba($o-danger, 0.12);
+    color: $o-danger;
+}
+
+.o_piko_riko_kpi_positive .o_piko_riko_kpi_icon {
+    background: rgba($o-success, 0.12);
+    color: $o-success;
+}
+
+.o_piko_riko_kpi_label {
+    font-size: 0.8rem;
+    color: $o-gray-600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.15rem;
+}
+
+.o_piko_riko_kpi_value {
+    font-size: 1.35rem;
+    font-weight: $o-font-weight-bold;
+    color: $o-gray-900;
+}
+
+.o_piko_riko_kpi_suffix {
+    font-size: 0.75rem;
+    font-weight: $o-font-weight-normal;
+    color: $o-gray-600;
+    margin-left: 0.25rem;
+}
+
+.o_piko_riko_kpi_variation {
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+.o_piko_riko_kpi_positive.o_piko_riko_kpi_variation,
+.o_piko_riko_kpi_variation.o_piko_riko_kpi_positive {
+    color: $o-success;
+}
+
+.o_piko_riko_kpi_variation.o_piko_riko_kpi_negative {
+    color: $o-danger;
+}

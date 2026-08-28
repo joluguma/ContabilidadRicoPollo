@@ -39,3 +39,13 @@ __pycache__/
 
 # --- Backups locales ---
 /backups/
+
+# --- Datos reales de la empresa: NITs, clientes, cifras financieras ---
+# (nunca se versionan — son datos sensibles, no código; los scripts que
+# los procesan sí se versionan normalmente en scripts/)
+/*.csv
+/*.xls
+/*.xlsx
+/scripts/*_parsed.json
+/scripts/*_candidates.json
+/scripts/productos_parsed.json

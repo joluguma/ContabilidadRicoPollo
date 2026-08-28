@@ -1,0 +1,19 @@
+// Identidad de marca Piko Riko sobre las variables nativas de Odoo.
+// Se sobrescriben ANTES de que se declaren con !default en
+// primary_variables.scss (bundle web._assets_primary_variables, este
+// archivo va "prepend" — ver __manifest__.py), así que basta con
+// asignar el valor una vez aquí para que se propague a botones,
+// pestañas activas, anillos de foco, etc. sin tocar ningún core file.
+
+// Paleta corporativa oficial de GRUPO RICO POLLO S.A.S. (hex exactos
+// entregados por la empresa) — Bootstrap elige automáticamente texto
+// claro u oscuro sobre estos colores según su contraste.
+$o-brand-primary: #F9B900; // Amarillo corporativo: identidad, acciones principales, destacados.
+$o-danger: #D71920;        // Rojo corporativo: alertas, estados críticos, cancelaciones.
+
+// Grises complementarios de la guía de marca.
+$o-gray-100: #F5F5F5 !default;
+$o-gray-200: #E5E5E5 !default;
+$o-gray-600: #6B7280 !default;
+$o-gray-700: #374151 !default;
+$o-gray-900: #171717; // Negro corporativo (no #000 puro).

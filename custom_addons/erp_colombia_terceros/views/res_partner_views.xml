@@ -8,6 +8,10 @@
             <field name="vat" position="after">
                 <field name="l10n_co_verification_digit" string="DV" readonly="1"
                        invisible="not l10n_co_verification_digit"/>
+                <button name="action_rues_lookup" type="object"
+                        string="Buscar en RUES" class="btn-link ps-0"
+                        invisible="not vat"
+                        help="Autocompleta razón social, dirección y contacto desde el Registro Único Empresarial y Social (RUES) usando el NIT."/>
             </field>
             <div class="d-flex flex-column flex-grow-1" position="inside">
                 <field name="trade_name" placeholder="Nombre comercial" invisible="not is_company"
