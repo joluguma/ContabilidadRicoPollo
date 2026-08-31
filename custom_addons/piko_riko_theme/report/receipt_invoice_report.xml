@@ -34,6 +34,16 @@
                     </div>
                 </div>
 
+                <!-- Declaraciones fiscales confirmadas por el cliente
+                     (GRUPO RICO POLLO S.A.S. cobra IVA en sus productos, por
+                     lo que es Responsable de IVA; confirmó que no es
+                     autorretenedor de renta). Si esto cambia algún día, hay
+                     que actualizar este texto. -->
+                <div class="center small">
+                    <div>Responsables de IVA</div>
+                    <div>No autorretenedores</div>
+                </div>
+
                 <hr/>
 
                 <!-- Encabezado deliberadamente dice "Factura de Venta" (sin
@@ -113,15 +123,26 @@
 
                 <hr/>
 
-                <table>
-                    <tr>
-                        <td>Subtotal</td>
-                        <td class="right"><span t-field="o.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
-                    </tr>
-                    <tr t-if="o.amount_tax">
-                        <td>IVA</td>
-                        <td class="right"><span t-field="o.amount_tax" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
-                    </tr>
+                <!-- Detalle de impuestos por grupo (Base + IVA de cada
+                     tarifa, Base Exenta, Base Excluida por separado) — usa
+                     el resumen nativo de Odoo (tax_totals), el mismo que
+                     usa la propia vista de factura. Exento y Excluido
+                     quedan separados porque son categorías DIAN distintas
+                     (ver scripts/separar_grupos_iva_exento_excluido.py). -->
+                <div class="bold small">DETALLE DE IMPUESTOS</div>
+                <table class="small">
+                    <t t-foreach="o.tax_totals.get('subtotals', [])" t-as="subtotal">
+                        <t t-foreach="subtotal.get('tax_groups', [])" t-as="tax_group">
+                            <tr>
+                                <td>Base <t t-esc="tax_group['group_name']"/></td>
+                                <td class="right"><t t-out="tax_group['base_amount_currency']" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                            </tr>
+                            <tr t-if="tax_group['tax_amount_currency']">
+                                <td><t t-esc="tax_group['group_name']"/></td>
+                                <td class="right"><t t-out="tax_group['tax_amount_currency']" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                            </tr>
+                        </t>
+                    </t>
                     <tr class="bold">
                         <td>TOTAL</td>
                         <td class="right"><span t-field="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
