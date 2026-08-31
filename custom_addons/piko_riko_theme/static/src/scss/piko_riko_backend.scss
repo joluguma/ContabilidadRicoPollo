@@ -18,12 +18,10 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-// Barra superior de la aplicación: fondo neutro oscuro (no amarillo
-// pleno) para mantener la lectura profesional pedida — el amarillo
-// queda como acento en botones y estados, no como fondo masivo.
-.o_main_navbar {
-    background-color: $o-gray-900;
-}
+// La barra superior ya no se fuerza aquí con CSS: se ajusta con las
+// variables nativas de Odoo en piko_riko_variables.scss
+// ($o-navbar-background y relacionadas) — mismo resultado, pero
+// coherente automáticamente en texto/íconos/hover sin duplicar reglas.
 
 // Fondo general de la plataforma: gris muy claro (identidad Rico
 // Pollo), con las vistas (listas, formularios, kanban) quedando como
@@ -43,4 +41,12 @@
 .o_list_number {
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum" 1;
+}
+
+// El indicador de "cargando" (abajo a la derecha) trae texto blanco a
+// propósito porque el color de fondo por defecto de Odoo ahí ($o-brand-odoo)
+// es oscuro — como ese fondo ahora es dorado pálido (Fase 6), el texto
+// blanco quedaría ilegible; se pasa a un gris oscuro.
+.o_loading_indicator {
+    color: $o-gray-900;
 }

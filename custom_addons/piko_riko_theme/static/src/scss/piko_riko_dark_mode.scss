@@ -62,10 +62,17 @@
         border-color: #333333 !important;
     }
 
-    // La barra superior ya es negra de marca en modo claro — se
-    // mantiene igual, no necesita cambiar en modo oscuro.
+    // Desde la Fase 6 la barra superior en modo claro es blanca (ver
+    // piko_riko_variables.scss) — en modo oscuro sí conviene oscurecerla
+    // (blanco puro sería muy brillante sobre el resto de la pantalla
+    // oscura), con texto/íconos claros para mantener contraste.
     .o_main_navbar {
-        background-color: $o-gray-900;
+        background-color: $o-gray-900 !important;
+        border-bottom-color: $o-gray-900 !important;
+
+        * {
+            color: rgba(255, 255, 255, .87) !important;
+        }
     }
 
     // El amarillo/rojo de marca ya tienen buen contraste sobre fondo

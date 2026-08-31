@@ -24,10 +24,30 @@ $o-warning: #ED6C02; // Pendiente / por conciliar / por cobrar.
 // estado "de alerta" sino neutro-informativo.
 
 // Grises complementarios de la guía de marca.
-
-// Grises complementarios de la guía de marca.
 $o-gray-100: #F5F5F5 !default;
 $o-gray-200: #E5E5E5 !default;
 $o-gray-600: #6B7280 !default;
 $o-gray-700: #374151 !default;
-$o-gray-900: #171717; // Negro corporativo (no #000 puro).
+$o-gray-900: #171717; // Negro corporativo (no #000 puro) — se usa como acento puntual, no como fondo masivo (ver Fase 6).
+
+// $o-brand-odoo es una variable DISTINTA de $o-brand-primary que Odoo
+// usa en unos pocos puntos específicos (barra de carga superior,
+// overlay del diálogo de exportar, etc.) — por defecto es el morado
+// de marca de Odoo (#71639e) y NUNCA se tocaba porque solo pisábamos
+// $o-brand-primary. Se cambia a un dorado pálido para que no vuelva a
+// aparecer morado en ningún lado (Fase 6: paleta más clara/pálida).
+$o-brand-odoo: #F2D98D;
+
+// Fase 6 (paleta más pálida, a pedido del cliente): la barra superior
+// pasa de negro sólido a blanco con una línea de acento en el amarillo
+// de marca — mantiene identidad sin ser una superficie oscura pesada.
+// Estas son las variables NATIVAS de Odoo para la barra
+// (navbar.variables.scss, mismo bundle que este archivo) — se pisan
+// aquí en vez de forzar CSS aparte, para que todo el navbar (texto,
+// íconos, hover) quede coherente automáticamente.
+$o-navbar-background: #FFFFFF; // no se usa $o-white: ese token todavía no existe en este punto del bundle (nuestro archivo se carga ANTES que primary_variables.scss, que es quien lo define).
+$o-navbar-border-bottom: 2px solid $o-brand-primary;
+$o-navbar-entry-color: $o-gray-700;
+$o-navbar-entry-color--hover: $o-gray-900;
+$o-navbar-entry-bg--hover: $o-gray-100;
+$o-navbar-brand-color: $o-gray-900;
