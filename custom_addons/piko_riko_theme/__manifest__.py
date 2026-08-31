@@ -118,6 +118,7 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
             'piko_riko_theme/static/src/scss/piko_riko_dark_mode.scss',
             'piko_riko_theme/static/src/title_service_override.js',
             'piko_riko_theme/static/src/hide_chat_systray.js',
+            'piko_riko_theme/static/src/hide_user_menu_items.js',
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.js',
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.xml',
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.scss',
