@@ -12,44 +12,100 @@
                     .piko_riko_receipt .logo { max-width: 55mm; max-height: 25mm; margin: 0 auto 4px auto; display: block; }
                     .piko_riko_receipt hr { border: none; border-top: 1px dashed #000; margin: 6px 0; }
                     .piko_riko_receipt table { width: 100%; border-collapse: collapse; }
-                    .piko_riko_receipt td, .piko_riko_receipt th { padding: 1px 0; vertical-align: top; }
+                    .piko_riko_receipt td, .piko_riko_receipt th { padding: 1px 3px 1px 0; vertical-align: top; }
+                    .piko_riko_receipt .items_table td:first-child { max-width: 34mm; word-wrap: break-word; }
+                    .piko_riko_receipt .items_table td:not(:first-child) { white-space: nowrap; }
                     .piko_riko_receipt .right { text-align: right; }
                     .piko_riko_receipt .small { font-size: 9px; }
                     .piko_riko_receipt .bold { font-weight: bold; }
+                    .piko_riko_receipt .title { font-size: 13px; font-weight: bold; }
                     .piko_riko_receipt .line_desc { padding-top: 3px; }
+                    .piko_riko_receipt .label { color: #333; }
                 </style>
 
                 <div class="center">
                     <img class="logo" t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"/>
                     <div class="bold" t-field="o.company_id.name"/>
+                    <div t-if="o.company_id.vat"><span t-field="o.company_id.vat"/></div>
                     <div t-field="o.company_id.street"/>
                     <div>
                         <span t-field="o.company_id.city"/><t t-if="o.company_id.city and o.company_id.phone">, </t>
                         <span t-field="o.company_id.phone"/>
                     </div>
-                    <div t-if="o.company_id.vat">NIT: <span t-field="o.company_id.vat"/></div>
                 </div>
 
                 <hr/>
 
-                <div>
-                    <span class="bold" t-esc="'Factura' if o.move_type == 'out_invoice' else 'Nota de crédito'"/>
-                    <span class="bold" t-field="o.name"/>
+                <!-- Encabezado deliberadamente dice "Factura de Venta" (sin
+                     "Electrónica") y no incluye CUFE ni código QR: esos solo
+                     los puede generar un sistema con habilitación real ante
+                     la DIAN (certificado digital), que este ERP todavía no
+                     tiene. Mostrar un CUFE/QR falso sería hacer pasar este
+                     documento por algo que no es. -->
+                <div class="center title">
+                    <span t-esc="'FACTURA DE VENTA' if o.move_type == 'out_invoice' else 'NOTA DE CRÉDITO'"/>
+                    No. <span t-field="o.name"/>
                 </div>
-                <div>Fecha: <span t-field="o.invoice_date"/></div>
-                <div>Cliente: <span t-field="o.partner_id.name"/></div>
-                <div t-if="o.partner_id.vat">NIT/CC: <span t-field="o.partner_id.vat"/></div>
+
+                <table class="small">
+                    <tr>
+                        <td class="label">Fecha</td>
+                        <td><span t-field="o.invoice_date"/></td>
+                        <td class="label right">Hora</td>
+                        <td class="right"><span t-field="o.create_date" t-options='{"widget": "datetime", "time_only": true}'/></td>
+                    </tr>
+                    <tr t-if="o.invoice_date_due">
+                        <td class="label">Vencimiento</td>
+                        <td colspan="3"><span t-field="o.invoice_date_due"/></td>
+                    </tr>
+                    <tr t-if="o.invoice_user_id">
+                        <td class="label">Vendedor</td>
+                        <td colspan="3"><span t-field="o.invoice_user_id.name"/></td>
+                    </tr>
+                </table>
 
                 <hr/>
 
-                <table>
+                <div class="bold small">DATOS DEL CLIENTE</div>
+                <table class="small">
+                    <tr>
+                        <td class="label">Cliente</td>
+                        <td colspan="3"><span t-field="o.partner_id.name"/></td>
+                    </tr>
+                    <tr t-if="o.partner_id.vat">
+                        <td class="label">NIT/C.C.</td>
+                        <td colspan="3"><span t-field="o.partner_id.vat"/></td>
+                    </tr>
+                    <tr t-if="o.partner_id.street">
+                        <td class="label">Dirección</td>
+                        <td colspan="3"><span t-field="o.partner_id.street"/></td>
+                    </tr>
+                    <tr t-if="o.partner_id.phone">
+                        <td class="label">Teléfono</td>
+                        <td colspan="3"><span t-field="o.partner_id.phone"/></td>
+                    </tr>
+                    <tr t-if="o.partner_id.email">
+                        <td class="label">Email</td>
+                        <td colspan="3"><span t-field="o.partner_id.email"/></td>
+                    </tr>
+                </table>
+
+                <hr/>
+
+                <table class="small items_table">
+                    <thead>
+                        <tr class="bold">
+                            <td>Artículo</td>
+                            <td class="right">P. Unit</td>
+                            <td class="right">Cant</td>
+                            <td class="right">Valor</td>
+                        </tr>
+                    </thead>
                     <t t-foreach="o.invoice_line_ids.filtered(lambda l: l.display_type == 'product')" t-as="line">
                         <tr>
-                            <td colspan="3" class="line_desc"><span t-field="line.name"/></td>
-                        </tr>
-                        <tr>
-                            <td class="small"><t t-esc="'%s x %s' % (line.quantity, line.price_unit)"/></td>
-                            <td class="small right"/>
+                            <td><span t-field="line.name"/></td>
+                            <td class="right"><span t-field="line.price_unit" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                            <td class="right"><span t-field="line.quantity"/></td>
                             <td class="right"><span t-field="line.price_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
                         </tr>
                     </t>
@@ -70,6 +126,29 @@
                         <td>TOTAL</td>
                         <td class="right"><span t-field="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
                     </tr>
+                </table>
+
+                <hr/>
+
+                <!-- Estado de pago real (no se inventa un desglose por medio
+                     de pago -efectivo/tarjeta/Nequi- porque account.move no
+                     lo registra así de forma nativa; esto sí es dato real
+                     del sistema). -->
+                <table class="small">
+                    <tr t-if="o.payment_state == 'paid'" class="bold">
+                        <td>PAGADO</td>
+                        <td class="right"><span t-field="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                    </tr>
+                    <t t-else="">
+                        <tr>
+                            <td>Pagado</td>
+                            <td class="right"><t t-out="o.amount_total - o.amount_residual" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                        </tr>
+                        <tr class="bold">
+                            <td>Saldo pendiente</td>
+                            <td class="right"><span t-field="o.amount_residual" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                        </tr>
+                    </t>
                 </table>
 
                 <hr/>

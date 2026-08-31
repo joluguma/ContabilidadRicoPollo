@@ -59,6 +59,16 @@ Fase 3.1:
     funcionando igual); solo desaparece como app independiente. Es
     reversible.
 
+Fase 2.5:
+  * La tirilla de 80mm se rediseñó para parecerse a los comprobantes
+    de venta que el negocio ya conoce (encabezado con datos de la
+    empresa, datos del cliente, tabla de artículos con precio
+    unitario/cantidad/valor, estado de pago). Dice deliberadamente
+    "Factura de Venta" (sin "Electrónica") y NO incluye CUFE ni código
+    QR: esos solo los puede emitir un sistema con habilitación real
+    ante la DIAN (certificado digital) — trámite pendiente, no algo
+    que se pueda simular sin hacerlo pasar por algo que no es.
+
 Fase 4 (este módulo, por ahora):
   * Colores semánticos de estado contable: se afinan $success/$warning
     (verde=pagado/conciliado, naranja=pendiente — deliberadamente
