@@ -32,3 +32,15 @@
 .o_action_manager, .o_content {
     background-color: #F7F7F7;
 }
+
+// Tipografía tabular para cifras: Odoo ya marca TODA columna numérica
+// (moneda, entero, decimal) con esta clase en las vistas de lista —
+// activar tabular-nums hace que los dígitos midan lo mismo entre sí,
+// para que las cifras de un plan de cuentas o un listado de facturas
+// queden alineadas verticalmente de verdad (con la fuente normal, un
+// "1" y un "8" no ocupan el mismo ancho, y las columnas de dinero se
+// ven "torcidas" aunque estén bien alineadas a la derecha).
+.o_list_number {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+}

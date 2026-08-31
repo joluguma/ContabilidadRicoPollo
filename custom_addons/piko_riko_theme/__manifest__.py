@@ -59,6 +59,21 @@ Fase 3.1:
     funcionando igual); solo desaparece como app independiente. Es
     reversible.
 
+Fase 4 (este módulo, por ahora):
+  * Colores semánticos de estado contable: se afinan $success/$warning
+    (verde=pagado/conciliado, naranja=pendiente — deliberadamente
+    distinto del amarillo de marca para no confundirlos) sobre el
+    mecanismo NATIVO de badges de Odoo (widget="badge"
+    decoration-success/warning/info), así que aplica automáticamente en
+    toda la app (facturas, pagos, asientos) sin vistas nuevas.
+  * Tipografía tabular en columnas numéricas de las listas (plan de
+    cuentas, facturas, etc.) — usa la clase nativa "o_list_number" que
+    Odoo ya pone en toda columna de cifras.
+  * Modo oscuro (primera versión): sigue la preferencia del sistema
+    operativo/navegador automáticamente, sin botón. Cobertura: fondo
+    general, tarjetas de vista, tablas, inputs. Vistas muy específicas
+    podrían necesitar ajustes puntuales más adelante.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -80,6 +95,7 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
         ],
         'web.assets_backend': [
             'piko_riko_theme/static/src/scss/piko_riko_backend.scss',
+            'piko_riko_theme/static/src/scss/piko_riko_dark_mode.scss',
             'piko_riko_theme/static/src/title_service_override.js',
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.js',
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.xml',

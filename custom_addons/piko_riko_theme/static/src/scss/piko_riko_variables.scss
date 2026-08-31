@@ -9,7 +9,21 @@
 // entregados por la empresa) — Bootstrap elige automáticamente texto
 // claro u oscuro sobre estos colores según su contraste.
 $o-brand-primary: #F9B900; // Amarillo corporativo: identidad, acciones principales, destacados.
-$o-danger: #D71920;        // Rojo corporativo: alertas, estados críticos, cancelaciones.
+$o-danger: #D71920;        // Rojo corporativo: alertas, estados críticos, vencido, cancelado.
+
+// Colores semánticos de estado contable. Estos alimentan TODOS los
+// badges de estado ya existentes en Odoo (facturas, pagos, asientos,
+// conciliación bancaria) vía widget="badge" decoration-success/warning/
+// info — no se inventan clases nuevas, se reutiliza el mecanismo nativo
+// en toda la aplicación de una sola vez.
+$o-success: #1E8E3E; // Pagado / conciliado / ingreso.
+// Advertencia: se aleja del amarillo de marca a propósito (naranja, no
+// amarillo) para no confundir "pendiente" con un botón/acento de marca.
+$o-warning: #ED6C02; // Pendiente / por conciliar / por cobrar.
+// Info se deja en su azul por defecto: borrador / enviado, no es un
+// estado "de alerta" sino neutro-informativo.
+
+// Grises complementarios de la guía de marca.
 
 // Grises complementarios de la guía de marca.
 $o-gray-100: #F5F5F5 !default;
