@@ -84,6 +84,15 @@ Fase 4 (este módulo, por ahora):
     general, tarjetas de vista, tablas, inputs. Vistas muy específicas
     podrían necesitar ajustes puntuales más adelante.
 
+Fase 5:
+  * Se quita el ícono de chat interno y el de actividades pendientes
+    de la barra superior (no se usan todavía) — reversible, no afecta
+    el chatter de documentos ni el módulo mail.
+  * Se oculta la pestaña "Apps" de Ajustes: instalar/actualizar
+    módulos queda solo por línea de comandos (lo hace el
+    desarrollador), no expuesto en la interfaz web a ningún usuario.
+  * Todos los usuarios quedan en español (es_419) por defecto.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -97,6 +106,7 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
         'views/login_templates.xml',
         'data/paperformat_receipt.xml',
         'data/hide_discuss_menu.xml',
+        'data/hide_apps_menu.xml',
         'report/receipt_invoice_report.xml',
     ],
     'assets': {
@@ -107,6 +117,7 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
             'piko_riko_theme/static/src/scss/piko_riko_backend.scss',
             'piko_riko_theme/static/src/scss/piko_riko_dark_mode.scss',
             'piko_riko_theme/static/src/title_service_override.js',
+            'piko_riko_theme/static/src/hide_chat_systray.js',
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.js',
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.xml',
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.scss',

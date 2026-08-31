@@ -33,6 +33,7 @@ def crear_usuario(login, name, group_xmlids, partner_id=None):
         'login': login,
         'name': name,
         'password': PASSWORD,
+        'lang': 'es_419',
         'group_ids': [(6, 0, [env.ref(x).id for x in group_xmlids])],
     }
     if partner_id:

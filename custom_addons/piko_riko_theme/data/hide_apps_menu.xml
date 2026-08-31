@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Oculta la pestaña "Apps" dentro de Ajustes (instalar/actualizar
+         módulos desde la interfaz web). Las instalaciones de módulos las
+         hace el desarrollador por línea de comandos en el servidor, no
+         los usuarios desde el navegador — reversible, es solo active=False
+         sobre el menú, igual que se hizo con Discuss (Fase 3.1). -->
+    <record id="base.menu_management" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+</odoo>
