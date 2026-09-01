@@ -84,6 +84,9 @@ class PikoRikoDashboard(models.AbstractModel):
             ('company_id', 'in', (company.id, False)),
         ])
         inventario_disponible = sum(storable.mapped('qty_available'))
+        valor_inventario = sum(
+            p.qty_available * p.standard_price for p in storable
+        )
 
         stock_bajo = 0
         if 'stock.warehouse.orderpoint' in self.env:
@@ -99,6 +102,7 @@ class PikoRikoDashboard(models.AbstractModel):
             'ventas_mes_variacion_pct': self._pct_change(ventas_mes, ventas_mes_prev),
             'compras_mes': compras_mes,
             'inventario_disponible': inventario_disponible,
+            'valor_inventario': valor_inventario,
             'stock_bajo': stock_bajo,
             'cuentas_por_cobrar': sum(receivable_moves.mapped('amount_residual')),
             'cuentas_por_pagar': sum(payable_moves.mapped('amount_residual')),

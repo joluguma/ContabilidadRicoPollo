@@ -93,6 +93,17 @@ Fase 5:
     desarrollador), no expuesto en la interfaz web a ningún usuario.
   * Todos los usuarios quedan en español (es_419) por defecto.
 
+Fase 7:
+  * Valor de inventario (cantidad x costo): columna nueva "Valor
+    inventario" en la lista de Productos de Inventario (con total al
+    pie de la lista) y tarjeta nueva en el dashboard con el total
+    general. Es solo de consulta — no genera asientos contables
+    automáticos (decisión explícita: la valoración de las categorías
+    de producto sigue siendo periódica/manual). El número solo es
+    correcto una vez se haga el conteo físico real y se cargue la
+    cantidad de cada producto — mientras tanto refleja únicamente los
+    pocos productos que ya tienen cantidad cargada.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -107,6 +118,7 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
         'data/paperformat_receipt.xml',
         'data/hide_discuss_menu.xml',
         'data/hide_apps_menu.xml',
+        'views/product_inventory_value_view.xml',
         'report/receipt_invoice_report.xml',
     ],
     'assets': {

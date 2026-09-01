@@ -67,6 +67,12 @@ class PikoRikoDashboard extends Component {
                 suffix: "unidades",
             },
             {
+                key: "valor_inventario",
+                icon: "fa-money",
+                label: "Valor de inventario",
+                value: this.formatMoney(k.valor_inventario),
+            },
+            {
                 key: "stock_bajo",
                 icon: "fa-exclamation-triangle",
                 label: "Productos con stock bajo",

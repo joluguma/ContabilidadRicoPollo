@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Agrega la columna "Valor de inventario" (cantidad x costo) a la
+         lista de Productos de Inventario, con total al pie de la lista —
+         reporte simple de consulta, sin generar asientos contables (ver
+         decisión: solo reporte, no valoración automática integrada). -->
+    <record id="view_product_template_tree_inventory_value" model="ir.ui.view">
+        <field name="name">product.template.piko.riko.inventory.value</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="stock.view_stock_product_template_tree"/>
+        <field name="arch" type="xml">
+            <field name="virtual_available" position="after">
+                <field name="piko_riko_inventory_value"
+                       string="Valor inventario"
+                       optional="show"
+                       widget="monetary"
+                       groups="stock.group_stock_user"
+                       sum="Valor total de inventario"/>
+            </field>
+        </field>
+    </record>
+</odoo>
