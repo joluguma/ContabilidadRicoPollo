@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Bug real que causó confusión: en el formulario de traslados,
+         "Ubicación de destino" ya viene protegida por Odoo (no deja
+         elegir la ubicación "vista" que agrupa cada bodega, solo sus
+         ubicaciones reales de adentro, ej. "Stock"), pero "Ubicación
+         de origen" NO tenía esa misma protección — se podía elegir
+         por error la bodega "vista" (ej. "BODEGA PIEDRA SUR", el nodo
+         que agrupa todo) en vez de la de adentro que sí tiene
+         existencias (ej. "BODEGA PIEDRA SUR/Stock"), y al no tener
+         stock real ese nodo, los campos de cantidad se quedaban en
+         0,00 sin dejar escribir. Se le agrega la misma restricción que
+         ya tiene el destino. -->
+    <record id="view_picking_form_location_id_domain" model="ir.ui.view">
+        <field name="name">stock.picking.form.piko.riko.location.domain</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_id' and @groups='stock.group_stock_multi_locations']" position="attributes">
+                <attribute name="domain">[('usage','!=','view')]</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
