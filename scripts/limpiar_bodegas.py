@@ -21,8 +21,8 @@ Warehouse = env['stock.warehouse']
 fantasma = Warehouse.search([('code', '=', 'varia')])
 for w in fantasma:
     print(f'Archivando bodega fantasma: "{w.name}" (código {w.code}, id {w.id})')
+    w.active = False  # primero la bodega: la ubicación no se deja archivar mientras esté en uso
     w.view_location_id.action_archive()
-    w.active = False
 
 # 2) Renombrar ubicaciones raíz al nombre completo de la bodega
 RENOMBRAR = {
