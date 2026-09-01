@@ -119,6 +119,7 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
         'data/hide_discuss_menu.xml',
         'data/hide_apps_menu.xml',
         'views/product_inventory_value_view.xml',
+        'views/stock_warehouse_view.xml',
         'report/receipt_invoice_report.xml',
     ],
     'assets': {

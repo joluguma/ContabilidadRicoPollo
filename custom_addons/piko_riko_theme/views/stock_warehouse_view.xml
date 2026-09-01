@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Agrega la columna/campo "Observaciones" a la lista y ficha
+         nativas de Bodegas — la nota que ya se guarda por bodega (ver
+         scripts/crear_bodegas.py) no se veía en ningún lado porque
+         stock.warehouse no expone ese dato de fábrica. -->
+    <record id="view_warehouse_tree_observaciones" model="ir.ui.view">
+        <field name="name">stock.warehouse.list.piko.riko.observaciones</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="piko_riko_observaciones" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_warehouse_form_observaciones" model="ir.ui.view">
+        <field name="name">stock.warehouse.form.piko.riko.observaciones</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="piko_riko_observaciones" placeholder="Observaciones..."/>
+            </field>
+        </field>
+    </record>
+</odoo>
