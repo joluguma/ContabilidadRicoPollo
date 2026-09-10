@@ -50,7 +50,7 @@
         margin-bottom: 1.75rem;
 
         img {
-            max-height: 90px !important;
+            max-height: 100px !important;
             max-width: 100% !important;
             width: auto !important;
         }
@@ -87,11 +87,13 @@
     // Campo de contraseña: va dentro de un input-group con el botón
     // "ver contraseña" pegado a la derecha.
     .input-group {
-        .form-control {
+        flex-wrap: nowrap;
+
+        > .form-control {
             border-radius: 10px 0 0 10px;
         }
 
-        .o_show_password {
+        > .o_show_password {
             border: 1px solid #E2E2E2;
             border-left: 0;
             border-radius: 0 10px 10px 0;

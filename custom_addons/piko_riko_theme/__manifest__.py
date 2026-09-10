@@ -105,10 +105,12 @@ Fase 7:
     pocos productos que ya tienen cantidad cargada.
 
 Fase 8:
-  * Logo oficial de GRUPO RICO POLLO S.A.S. cargado en la ficha de la
-    compañía (res.company.logo + favicon) — se propaga solo a la
-    página de login, a los PDF (facturas, órdenes, tirilla) y al ícono
-    de la pestaña del navegador, sin tocar código.
+  * Logo oficial de GRUPO RICO POLLO S.A.S. (static/src/img/logo.png)
+    cargado en la ficha de la compañía (res.company.logo) — se propaga
+    a la página de login y a todos los PDF (facturas, órdenes, tirilla,
+    cotizaciones). Favicon (símbolo del logo) vía
+    views/favicon_templates.xml. El título del documento HTML deja de
+    decir "Odoo".
   * Rediseño de la página de inicio de sesión: tarjeta blanca centrada
     con sombra suave, logo grande, campos y botón con la identidad de
     marca (rojo/amarillo), franja de acento arriba, modo oscuro y
@@ -127,6 +129,7 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
     'data': [
         'views/dashboard_menu.xml',
         'views/login_templates.xml',
+        'views/favicon_templates.xml',
         'data/paperformat_receipt.xml',
         'data/hide_discuss_menu.xml',
         'data/hide_apps_menu.xml',

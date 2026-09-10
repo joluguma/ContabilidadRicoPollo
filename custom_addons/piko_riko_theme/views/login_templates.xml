@@ -21,9 +21,11 @@
             </div>
         </xpath>
 
-        <!-- Pie: marca de la empresa en vez de "Powered by Odoo". -->
+        <!-- Pie: marca de la empresa en vez de "Powered by Odoo".
+             "Distribuidores Mayoristas" ya va en el logo, así que el
+             pie queda solo con la razón social. -->
         <xpath expr="//a[contains(@href, 'odoo.com')]" position="replace">
-            <span class="o_piko_login_brand">Grupo Rico Pollo · Distribuidores Mayoristas</span>
+            <span class="o_piko_login_brand">Grupo Rico Pollo S.A.S.</span>
         </xpath>
 
     </template>

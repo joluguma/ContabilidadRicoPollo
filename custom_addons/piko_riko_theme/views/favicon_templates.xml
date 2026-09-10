@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Fase 8: favicon (ícono de la pestaña del navegador) con el
+         símbolo de GRUPO RICO POLLO.
+         En Odoo 19 Community res.company ya no tiene campo favicon;
+         el <link rel="shortcut icon"> vive en web.layout apuntando a
+         un archivo estático de core. Se redirige al del tema.
+         Se conserva x_icon (que Odoo usa para apps PWA con alcance). -->
+    <template id="layout_favicon_piko_riko" inherit_id="web.layout">
+        <xpath expr="//link[@rel='shortcut icon']" position="attributes">
+            <attribute name="t-att-href">x_icon or '/piko_riko_theme/static/src/img/favicon.png'</attribute>
+            <attribute name="type">image/png</attribute>
+        </xpath>
+        <!-- Título del documento HTML antes de que cargue el JS:
+             "Odoo" -> marca propia (el título dinámico del backend ya
+             se cambia en title_service_override.js). -->
+        <xpath expr="//title" position="attributes">
+            <attribute name="t-esc">title or 'Grupo Rico Pollo'</attribute>
+        </xpath>
+    </template>
+</odoo>
