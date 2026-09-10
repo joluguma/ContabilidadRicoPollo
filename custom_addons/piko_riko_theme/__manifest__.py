@@ -104,6 +104,18 @@ Fase 7:
     cantidad de cada producto — mientras tanto refleja únicamente los
     pocos productos que ya tienen cantidad cargada.
 
+Fase 8:
+  * Logo oficial de GRUPO RICO POLLO S.A.S. cargado en la ficha de la
+    compañía (res.company.logo + favicon) — se propaga solo a la
+    página de login, a los PDF (facturas, órdenes, tirilla) y al ícono
+    de la pestaña del navegador, sin tocar código.
+  * Rediseño de la página de inicio de sesión: tarjeta blanca centrada
+    con sombra suave, logo grande, campos y botón con la identidad de
+    marca (rojo/amarillo), franja de acento arriba, modo oscuro y
+    responsive. Cambios de plantilla mínimos; el diseño vive en
+    static/src/scss/piko_riko_login.scss y aplica solo a las pantallas
+    de autenticación.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -139,6 +151,9 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
         ],
         'web.report_assets_common': [
             'piko_riko_theme/static/src/scss/piko_riko_report_fix.scss',
+        ],
+        'web.assets_frontend': [
+            'piko_riko_theme/static/src/scss/piko_riko_login.scss',
         ],
     },
     'installable': True,

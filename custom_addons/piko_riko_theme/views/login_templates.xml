@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Fase 8: rediseño de la página de inicio de sesión.
+         Cambios de plantilla mínimos (una clase en el body para acotar
+         el estilo, el logo y el pie de marca); el diseño visual vive
+         en static/src/scss/piko_riko_login.scss. -->
     <template id="login_layout_piko_riko" inherit_id="web.login_layout">
-        <xpath expr="//a[contains(@href, 'odoo.com')]" position="replace">
-            <span>Piko Riko</span>
+
+        <!-- Clase en el <body> para acotar el estilo solo a las
+             pantallas de autenticación (login, recuperar contraseña...). -->
+        <xpath expr="//t[@t-set='body_classname']" position="attributes">
+            <attribute name="t-value">'bg-100 o_piko_login'</attribute>
         </xpath>
+
+        <!-- Zona del logo: sin la línea divisoria dura, con más aire,
+             y una línea de bienvenida discreta debajo. -->
+        <xpath expr="//div[hasclass('pb-3') and hasclass('border-bottom')]" position="replace">
+            <div class="text-center o_piko_login_logo">
+                <img t-attf-src="/web/binary/company_logo{{ '?dbname='+db if db else '' }}" alt="Grupo Rico Pollo"/>
+                <div class="o_piko_login_welcome">Sistema de gestión contable</div>
+            </div>
+        </xpath>
+
+        <!-- Pie: marca de la empresa en vez de "Powered by Odoo". -->
+        <xpath expr="//a[contains(@href, 'odoo.com')]" position="replace">
+            <span class="o_piko_login_brand">Grupo Rico Pollo · Distribuidores Mayoristas</span>
+        </xpath>
+
     </template>
 </odoo>

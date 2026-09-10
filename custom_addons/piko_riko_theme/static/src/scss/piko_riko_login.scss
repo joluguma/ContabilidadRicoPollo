@@ -1,0 +1,199 @@
+// Fase 8 — Rediseño de la página de inicio de sesión.
+//
+// Se aplica SOLO a las pantallas de autenticación (el <body> lleva la
+// clase o_piko_login, puesta en views/login_templates.xml): login,
+// recuperar contraseña, crear cuenta. No toca ninguna otra página.
+//
+// Objetivo: una entrada limpia y de confianza — logo de la empresa
+// grande, tarjeta blanca centrada con sombra suave, campos y botón
+// con la identidad de marca (rojo #D71920 / amarillo #F9B900), sin
+// adornos innecesarios.
+
+.o_piko_login {
+    min-height: 100vh;
+    background-color: #FAFAF7;
+    display: flex;
+    align-items: center;
+
+    // Franja de acento de marca en el borde superior de la página.
+    &::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #D71920 0%, #F9B900 100%);
+        z-index: 10;
+    }
+
+    .container {
+        width: 100%;
+    }
+
+    // La tarjeta de login de Odoo lleva la clase .o_database_list y un
+    // max-width en línea de 300px; se ensancha y se le da superficie.
+    .o_database_list {
+        max-width: 400px !important;
+        background-color: #FFFFFF;
+        border-radius: 18px;
+        box-shadow: 0 12px 40px rgba(23, 23, 23, 0.08),
+                    0 2px 8px rgba(23, 23, 23, 0.04);
+
+        .card-body {
+            padding: 2.75rem 2.5rem;
+        }
+    }
+
+    // --- Logo + bienvenida ---
+    .o_piko_login_logo {
+        margin-bottom: 1.75rem;
+
+        img {
+            max-height: 90px !important;
+            max-width: 100% !important;
+            width: auto !important;
+        }
+    }
+
+    .o_piko_login_welcome {
+        margin-top: 0.75rem;
+        color: #6B7280;
+        font-size: 0.9rem;
+    }
+
+    // --- Campos ---
+    .form-label {
+        font-weight: 500;
+        font-size: 0.85rem;
+        color: #374151;
+        margin-bottom: 0.35rem;
+    }
+
+    .form-control {
+        height: auto;
+        padding: 0.7rem 0.9rem;
+        font-size: 0.95rem;
+        border: 1px solid #E2E2E2;
+        border-radius: 10px;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+        &:focus {
+            border-color: #D71920;
+            box-shadow: 0 0 0 3px rgba(215, 25, 32, 0.12);
+        }
+    }
+
+    // Campo de contraseña: va dentro de un input-group con el botón
+    // "ver contraseña" pegado a la derecha.
+    .input-group {
+        .form-control {
+            border-radius: 10px 0 0 10px;
+        }
+
+        .o_show_password {
+            border: 1px solid #E2E2E2;
+            border-left: 0;
+            border-radius: 0 10px 10px 0;
+            color: #6B7280;
+        }
+    }
+
+    // --- Botón entrar ---
+    .oe_login_buttons .btn-primary {
+        background-color: #D71920;
+        border-color: #D71920;
+        border-radius: 10px;
+        padding: 0.7rem 1rem;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: background-color 0.15s ease, transform 0.05s ease;
+
+        &:hover {
+            background-color: #B5141B;
+            border-color: #B5141B;
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 3px rgba(215, 25, 32, 0.25);
+        }
+    }
+
+    // --- Pie de marca ---
+    // El div del pie trae border-top / paddings de Odoo; se suavizan.
+    .card-body > div:last-child {
+        border-top: 0 !important;
+        margin-top: 1.5rem !important;
+        padding-top: 0 !important;
+    }
+
+    .o_piko_login_brand {
+        color: #9AA0A6;
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    // --- Alertas de error/éxito ---
+    .alert {
+        border-radius: 10px;
+        font-size: 0.9rem;
+    }
+
+    // --- Responsive (móvil) ---
+    @media (max-width: 480px) {
+        .o_database_list {
+            border-radius: 14px;
+
+            .card-body {
+                padding: 2rem 1.5rem;
+            }
+        }
+    }
+
+    // --- Modo oscuro (sigue la preferencia del sistema, igual que el
+    //     resto del tema) ---
+    @media (prefers-color-scheme: dark) {
+        background-color: #121212;
+
+        .o_database_list {
+            background-color: #1E1E1E;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .o_piko_login_welcome {
+            color: #9AA0A6;
+        }
+
+        .form-label {
+            color: #C7CBD1;
+        }
+
+        .form-control {
+            background-color: #262626;
+            border-color: #3A3A3A;
+            color: #E8E8E8;
+
+            &:focus {
+                border-color: #F9B900;
+                box-shadow: 0 0 0 3px rgba(249, 185, 0, 0.15);
+            }
+        }
+
+        .input-group .o_show_password {
+            background-color: #262626;
+            border-color: #3A3A3A;
+            color: #9AA0A6;
+        }
+
+        .alert-danger {
+            background-color: rgba(215, 25, 32, 0.15);
+            color: #F3B0B3;
+            border-color: rgba(215, 25, 32, 0.3);
+        }
+    }
+}
