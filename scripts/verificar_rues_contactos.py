@@ -11,6 +11,7 @@
 #
 # Ejecutar con:
 #   odoo-bin shell -c odoo.conf -d odoo19 --no-http < scripts/verificar_rues_contactos.py
+import time
 import unicodedata
 
 
@@ -33,6 +34,12 @@ for i, p in enumerate(contactos):
     nit = (p.vat or '').split('-')[0].strip()
     if not nit.isdigit():
         continue
+
+    # RUES limita las consultas por ráfaga (HTTP 429 "Too Many
+    # Requests") — el primer intento de esta auditoría lo golpeó de
+    # frente al consultar 470 contactos sin pausa (llegaron "429" en
+    # milisegundos). Se espacia una consulta cada ~2s para no repetirlo.
+    time.sleep(2)
     try:
         data = p._rues_fetch(nit)
     except Exception as e:
