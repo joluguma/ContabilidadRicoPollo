@@ -37,6 +37,11 @@ for u in users:
         u.sudo().write({'active': False})
         print(f'  Usuario {u.login} archivado')
 
+# Forzar el guardado a la BD para que la validación del partner
+# ("no se puede archivar un contacto con usuario activo") vea los
+# usuarios ya inactivos.
+env.flush_all()
+
 # 3) Partner ficticio: archivar
 if partner and partner.active:
     partner.sudo().write({'active': False})
