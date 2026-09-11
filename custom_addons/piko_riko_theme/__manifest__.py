@@ -129,6 +129,21 @@ Fase 9:
   * Se eliminan las cuentas de PRUEBA que se usaron para testear los
     perfiles (scripts/borrar_usuarios_prueba.py).
 
+Fase 10:
+  * El color de ACCIÓN del sistema pasa de amarillo a rojo corporativo
+    para combinar con la pantalla de acceso (botones, pestañas activas,
+    foco, enlaces). El amarillo se conserva como acento: la línea
+    inferior del navbar es un degradado rojo→amarillo, el mismo detalle
+    que la franja de la pantalla de acceso. Fondo general a blanco
+    cálido (#FCFBFA), igual que el login.
+  * Dashboard convertido en centro de operaciones: saludo por hora del
+    día, filtro de período (Hoy/Semana/Mes/Año) que recalcula los KPIs,
+    fila de acciones rápidas (nueva factura/venta/cliente/compra/
+    producto), panel "Requiere atención" (stock bajo, facturas por
+    cobrar, cartera vencida — cada una abre la lista filtrada) y
+    "Actividad reciente" (últimos documentos con usuario y hora). Todo
+    con datos reales; no toca ningún módulo funcional ni la navegación.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.

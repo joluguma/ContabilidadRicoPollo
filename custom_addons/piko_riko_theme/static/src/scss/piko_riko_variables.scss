@@ -8,8 +8,15 @@
 // Paleta corporativa oficial de GRUPO RICO POLLO S.A.S. (hex exactos
 // entregados por la empresa) — Bootstrap elige automáticamente texto
 // claro u oscuro sobre estos colores según su contraste.
-$o-brand-primary: #F9B900; // Amarillo corporativo: identidad, acciones principales, destacados.
-$o-danger: #D71920;        // Rojo corporativo: alertas, estados críticos, vencido, cancelado.
+//
+// Fase 10: el color de ACCIÓN pasa de amarillo a rojo corporativo,
+// para que el backend combine con la pantalla de acceso (que usa el
+// rojo como color de acción — botón "Iniciar sesión"). El amarillo
+// #F9B900 sigue siendo color de marca: se conserva como acento
+// secundario (línea del navbar en degradado rojo→amarillo, ver
+// piko_riko_backend.scss).
+$o-brand-primary: #D71920; // Rojo corporativo: acciones principales, estados activos, foco.
+$o-danger: #C0141B;        // Rojo un tono más oscuro para "peligro" real (cancelar, vencido), para distinguirlo del rojo de acción.
 
 // Colores semánticos de estado contable. Estos alimentan TODOS los
 // badges de estado ya existentes en Odoo (facturas, pagos, asientos,

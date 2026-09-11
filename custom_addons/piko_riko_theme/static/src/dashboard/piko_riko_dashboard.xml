@@ -1,37 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates xml:space="preserve">
     <t t-name="piko_riko_theme.Dashboard">
-        <div class="o_piko_riko_dashboard p-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="mb-0">Dashboard</h2>
-                <button class="btn btn-secondary btn-sm" t-on-click="loadKpis">
-                    <i class="fa fa-refresh me-1"/> Actualizar
-                </button>
+        <div class="o_piko_riko_dashboard">
+
+            <!-- Encabezado -->
+            <div class="o_pk_header">
+                <div class="o_pk_header_text">
+                    <h1 t-esc="greeting"/>
+                    <p>Resumen general de <t t-esc="companyName"/></p>
+                </div>
+                <div class="o_pk_period">
+                    <t t-foreach="periods" t-as="p" t-key="p.key">
+                        <button type="button"
+                                t-attf-class="o_pk_period_btn {{ state.period === p.key ? 'active' : '' }}"
+                                t-on-click="() => this.setPeriod(p.key)"
+                                t-esc="p.label"/>
+                    </t>
+                    <button type="button" class="o_pk_refresh" t-on-click="loadData" title="Actualizar">
+                        <i class="fa fa-refresh"/>
+                    </button>
+                </div>
             </div>
 
-            <div t-if="state.loading" class="text-muted">Cargando indicadores…</div>
-
-            <div t-else="" class="o_piko_riko_kpi_grid">
-                <t t-foreach="cards" t-as="card" t-key="card.key">
-                    <div t-attf-class="o_piko_riko_kpi_card {{ card.tone ? 'o_piko_riko_kpi_' + card.tone : '' }}">
-                        <div class="o_piko_riko_kpi_icon">
-                            <i t-attf-class="fa {{ card.icon }}"/>
-                        </div>
-                        <div class="o_piko_riko_kpi_body">
-                            <div class="o_piko_riko_kpi_label" t-esc="card.label"/>
-                            <div class="o_piko_riko_kpi_value">
-                                <t t-esc="card.value"/>
-                                <span t-if="card.suffix" class="o_piko_riko_kpi_suffix" t-esc="card.suffix"/>
-                            </div>
-                            <div t-if="card.variation !== undefined and card.variation !== null"
-                                 t-attf-class="o_piko_riko_kpi_variation {{ card.variation >= 0 ? 'o_piko_riko_kpi_positive' : 'o_piko_riko_kpi_negative' }}">
-                                <i t-attf-class="fa {{ card.variation >= 0 ? 'fa-caret-up' : 'fa-caret-down' }}"/>
-                                <t t-esc="Math.abs(card.variation)"/>% vs. mes anterior
-                            </div>
-                        </div>
-                    </div>
+            <!-- Acciones rápidas -->
+            <div class="o_pk_quick">
+                <t t-foreach="quickActions" t-as="qa" t-key="qa.key">
+                    <button type="button" class="o_pk_quick_btn"
+                            t-on-click="() => this.quickAction(qa)">
+                        <i t-attf-class="fa {{ qa.icon }}"/>
+                        <span t-esc="qa.label"/>
+                    </button>
                 </t>
             </div>
+
+            <div t-if="state.loading" class="o_pk_loading">
+                <i class="fa fa-circle-o-notch fa-spin me-2"/> Cargando indicadores…
+            </div>
+
+            <t t-else="">
+                <!-- KPIs -->
+                <div class="o_piko_riko_kpi_grid">
+                    <t t-foreach="cards" t-as="card" t-key="card.key">
+                        <div t-attf-class="o_piko_riko_kpi_card {{ card.tone ? 'o_piko_riko_kpi_' + card.tone : '' }}">
+                            <div class="o_piko_riko_kpi_icon">
+                                <i t-attf-class="fa {{ card.icon }}"/>
+                            </div>
+                            <div class="o_piko_riko_kpi_body">
+                                <div class="o_piko_riko_kpi_label" t-esc="card.label"/>
+                                <div class="o_piko_riko_kpi_value" t-esc="card.value"/>
+                                <div t-if="card.sub" class="o_piko_riko_kpi_sub" t-esc="card.sub"/>
+                                <div t-if="card.variation !== undefined and card.variation !== null"
+                                     t-attf-class="o_piko_riko_kpi_variation {{ (card.invertVar ? -card.variation : card.variation) >= 0 ? 'up' : 'down' }}">
+                                    <i t-attf-class="fa {{ card.variation >= 0 ? 'fa-caret-up' : 'fa-caret-down' }}"/>
+                                    <t t-esc="Math.abs(card.variation)"/>% vs. período anterior
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Dos columnas: alertas + actividad -->
+                <div class="o_pk_columns">
+                    <div class="o_pk_panel">
+                        <h3><i class="fa fa-bell-o me-2"/>Requiere atención</h3>
+                        <t t-if="state.data.alertas.length === 0">
+                            <div class="o_pk_empty">
+                                <i class="fa fa-check-circle me-2"/>Todo en orden, sin alertas.
+                            </div>
+                        </t>
+                        <t t-foreach="state.data.alertas" t-as="a" t-key="a.key">
+                            <button type="button" class="o_pk_alert" t-on-click="() => this.openAlert(a.key)">
+                                <span class="o_pk_alert_dot"/>
+                                <span class="o_pk_alert_txt">
+                                    <strong t-esc="a.titulo"/>
+                                    <span t-esc="a.detalle"/>
+                                </span>
+                                <i class="fa fa-chevron-right"/>
+                            </button>
+                        </t>
+                    </div>
+
+                    <div class="o_pk_panel">
+                        <h3><i class="fa fa-history me-2"/>Actividad reciente</h3>
+                        <t t-if="state.data.actividad.length === 0">
+                            <div class="o_pk_empty">Sin movimientos recientes.</div>
+                        </t>
+                        <t t-foreach="state.data.actividad" t-as="it" t-key="it_index">
+                            <div class="o_pk_activity">
+                                <i t-attf-class="fa {{ it.icon }}"/>
+                                <span class="o_pk_activity_txt">
+                                    <span t-esc="it.texto"/>
+                                    <span class="o_pk_activity_meta">
+                                        <t t-esc="it.usuario"/> · <t t-esc="relTime(it.fecha)"/>
+                                    </span>
+                                </span>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
         </div>
     </t>
 </templates>

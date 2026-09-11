@@ -18,17 +18,31 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-// La barra superior ya no se fuerza aquí con CSS: se ajusta con las
-// variables nativas de Odoo en piko_riko_variables.scss
-// ($o-navbar-background y relacionadas) — mismo resultado, pero
-// coherente automáticamente en texto/íconos/hover sin duplicar reglas.
+// Barra superior: fondo blanco (variables nativas en
+// piko_riko_variables.scss). La línea de acento inferior se hace en
+// degradado rojo→amarillo — el mismo detalle que la franja superior de
+// la pantalla de acceso — para que login y sistema se sientan uno solo
+// (Fase 10).
+.o_main_navbar {
+    border-bottom: 0 !important;
+    position: relative;
 
-// Fondo general de la plataforma: gris muy claro (identidad Rico
-// Pollo), con las vistas (listas, formularios, kanban) quedando como
-// "tarjetas" blancas sobre ese fondo — Odoo ya las pinta blancas por
-// defecto, así que basta con oscurecer el fondo detrás de ellas.
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #D71920 0%, #F9B900 100%);
+    }
+}
+
+// Fondo general de la plataforma: blanco cálido (el mismo tono que la
+// superficie de la pantalla de acceso), con las vistas (listas,
+// formularios, kanban) quedando como "tarjetas" blancas encima.
 .o_action_manager, .o_content {
-    background-color: #F7F7F7;
+    background-color: #FCFBFA;
 }
 
 // Tipografía tabular para cifras: Odoo ya marca TODA columna numérica

@@ -1,7 +1,114 @@
+// Dashboard — centro de operaciones de GRUPO RICO POLLO.
+// Usa la misma paleta que el resto del tema (rojo de marca como
+// acento de acción, blanco/gris para superficies).
+
+.o_piko_riko_dashboard {
+    padding: 1.5rem 1.75rem 2.5rem;
+    max-width: 1440px;
+}
+
+// --- Encabezado ---
+.o_pk_header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+
+    .o_pk_header_text {
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: $o-gray-900;
+            margin: 0 0 0.15rem;
+        }
+        p {
+            margin: 0;
+            color: $o-gray-600;
+            font-size: 0.9rem;
+        }
+    }
+}
+
+.o_pk_period {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: $o-gray-100;
+    border-radius: 999px;
+    padding: 0.25rem;
+
+    .o_pk_period_btn {
+        border: 0;
+        background: transparent;
+        color: $o-gray-700;
+        font-size: 0.82rem;
+        font-weight: 500;
+        padding: 0.35rem 0.85rem;
+        border-radius: 999px;
+        transition: background 0.15s ease, color 0.15s ease;
+
+        &:hover { color: $o-gray-900; }
+        &.active {
+            background: $o-white;
+            color: $o-brand-primary;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        }
+    }
+
+    .o_pk_refresh {
+        border: 0;
+        background: transparent;
+        color: $o-gray-600;
+        width: 1.9rem;
+        height: 1.9rem;
+        border-radius: 999px;
+        &:hover { background: $o-white; color: $o-brand-primary; }
+    }
+}
+
+// --- Acciones rápidas ---
+.o_pk_quick {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+
+    .o_pk_quick_btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid $o-gray-200;
+        background: $o-white;
+        color: $o-gray-800;
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding: 0.5rem 0.9rem;
+        border-radius: 0.6rem;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+
+        i { color: $o-brand-primary; }
+
+        &:hover {
+            border-color: rgba($o-brand-primary, 0.5);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+        &:active { transform: translateY(1px); }
+    }
+}
+
+.o_pk_loading {
+    color: $o-gray-600;
+    padding: 2rem 0;
+}
+
+// --- KPIs ---
 .o_piko_riko_kpi_grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 1rem;
+    margin-bottom: 1.75rem;
 }
 
 .o_piko_riko_kpi_card {
@@ -20,60 +127,170 @@
     height: 2.6rem;
     min-width: 2.6rem;
     border-radius: 0.6rem;
-    background: rgba($o-brand-primary, 0.14);
-    color: darken($o-brand-primary, 15%);
+    background: rgba($o-brand-primary, 0.12);
+    color: $o-brand-primary;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
 }
 
-.o_piko_riko_kpi_warning .o_piko_riko_kpi_icon {
-    background: rgba($o-danger, 0.12);
-    color: $o-danger;
-}
-
+.o_piko_riko_kpi_warning .o_piko_riko_kpi_icon,
 .o_piko_riko_kpi_negative .o_piko_riko_kpi_icon {
     background: rgba($o-danger, 0.12);
     color: $o-danger;
 }
-
 .o_piko_riko_kpi_positive .o_piko_riko_kpi_icon {
     background: rgba($o-success, 0.12);
     color: $o-success;
 }
 
 .o_piko_riko_kpi_label {
-    font-size: 0.8rem;
+    font-size: 0.76rem;
     color: $o-gray-600;
     text-transform: uppercase;
     letter-spacing: 0.02em;
     margin-bottom: 0.15rem;
 }
-
 .o_piko_riko_kpi_value {
-    font-size: 1.35rem;
+    font-size: 1.28rem;
     font-weight: $o-font-weight-bold;
     color: $o-gray-900;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-
-.o_piko_riko_kpi_suffix {
+.o_piko_riko_kpi_sub {
     font-size: 0.75rem;
-    font-weight: $o-font-weight-normal;
     color: $o-gray-600;
-    margin-left: 0.25rem;
+    margin-top: 0.1rem;
 }
-
 .o_piko_riko_kpi_variation {
-    font-size: 0.8rem;
-    margin-top: 0.25rem;
+    font-size: 0.78rem;
+    margin-top: 0.3rem;
+
+    &.up { color: $o-success; }
+    &.down { color: $o-danger; }
 }
 
-.o_piko_riko_kpi_positive.o_piko_riko_kpi_variation,
-.o_piko_riko_kpi_variation.o_piko_riko_kpi_positive {
-    color: $o-success;
+// --- Paneles: alertas + actividad ---
+.o_pk_columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
 }
 
-.o_piko_riko_kpi_variation.o_piko_riko_kpi_negative {
-    color: $o-danger;
+.o_pk_panel {
+    background: $o-white;
+    border: 1px solid $o-gray-200;
+    border-radius: 0.75rem;
+    padding: 1.1rem 1.25rem 1.25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+    h3 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: $o-gray-900;
+        margin: 0 0 0.9rem;
+    }
+}
+
+.o_pk_empty {
+    color: $o-gray-600;
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
+}
+
+.o_pk_alert {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    text-align: left;
+    border: 0;
+    border-top: 1px solid $o-gray-100;
+    background: transparent;
+    padding: 0.7rem 0.25rem;
+    transition: background 0.12s ease;
+
+    &:first-of-type { border-top: 0; }
+    &:hover { background: $o-gray-100; }
+
+    .o_pk_alert_dot {
+        width: 8px;
+        height: 8px;
+        min-width: 8px;
+        border-radius: 999px;
+        background: $o-danger;
+    }
+    .o_pk_alert_txt {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        strong { font-size: 0.86rem; color: $o-gray-900; }
+        span { font-size: 0.78rem; color: $o-gray-600; }
+    }
+    .fa-chevron-right { color: $o-gray-500; font-size: 0.75rem; }
+}
+
+.o_pk_activity {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.6rem 0.25rem;
+    border-top: 1px solid $o-gray-100;
+
+    &:first-of-type { border-top: 0; }
+
+    > .fa {
+        color: $o-gray-500;
+        margin-top: 0.15rem;
+        width: 1rem;
+        text-align: center;
+    }
+    .o_pk_activity_txt {
+        display: flex;
+        flex-direction: column;
+        font-size: 0.84rem;
+        color: $o-gray-800;
+    }
+    .o_pk_activity_meta {
+        font-size: 0.75rem;
+        color: $o-gray-500;
+        margin-top: 0.1rem;
+    }
+}
+
+// --- Responsive ---
+@media (max-width: 900px) {
+    .o_pk_columns { grid-template-columns: 1fr; }
+}
+
+// --- Modo oscuro ---
+// (selectores con la misma especificidad que las reglas de modo claro,
+//  porque @media no suma especificidad)
+@media (prefers-color-scheme: dark) {
+    .o_piko_riko_kpi_card,
+    .o_pk_panel,
+    .o_pk_quick .o_pk_quick_btn {
+        background: #1E1E1E;
+        border-color: #333333;
+    }
+    .o_pk_quick .o_pk_quick_btn { color: #D6D6D6; }
+
+    .o_pk_period { background: #262626; }
+    .o_pk_period .o_pk_period_btn { color: #B8BEC7; }
+    .o_pk_period .o_pk_period_btn.active { background: #1E1E1E; }
+
+    .o_pk_header .o_pk_header_text h1 { color: #E8E8E8; }
+    .o_pk_header .o_pk_header_text p { color: #9AA0A6; }
+    .o_piko_riko_kpi_value { color: #E8E8E8; }
+    .o_pk_panel h3 { color: #E8E8E8; }
+
+    .o_pk_alert .o_pk_alert_txt strong { color: #E8E8E8; }
+    .o_pk_alert .o_pk_alert_txt span { color: #9AA0A6; }
+    .o_pk_alert:hover { background: #262626; }
+    .o_pk_alert, .o_pk_activity { border-top-color: #2E2E2E; }
+    .o_pk_activity .o_pk_activity_txt { color: #D6D6D6; }
+    .o_pk_empty { color: #9AA0A6; }
 }
