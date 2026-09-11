@@ -63,18 +63,62 @@ tiene usuario/clave/URL reales de TAXXA para el ambiente de pruebas):
     rerror 3344 — el NIT todavía no está dado de alta en la cuenta de
     TAXXA (paso de onboarding pendiente de ellos, no de este código).
   * Con el NIT de ejemplo de su propia documentación (901402281):
-    rerror 9371, "Error actualizacion, Documento NO Generado" — error
-    genérico, probable causa: los códigos de departamento/ciudad
-    (wdepartmentcode/wtowncode) deben ser códigos EXACTOS del catálogo
-    DIAN, no un número cualquiera — pendiente confirmar ese catálogo.
+    la primera vez rerror 9371 ("Documento NO Generado, intente de
+    nuevo") — genérico. Reintentando con la fecha correcta (ver
+    siguiente punto) sí avanzó hasta la DIAN de verdad.
+  * TAXXA tiene firewall por IP ("ParetoFW") — confirmado y ya resuelto
+    para el servidor de producción (ver _call(), detección del 403 con
+    la página "Acceso Restringido").
+  * IMPORTANTE: la fecha de emisión (tissuedate) NO puede ser futura
+    respecto al reloj real de TAXXA/DIAN — un envío con la fecha de
+    "mañana" fue rechazado con rerror 84133 y el propio mensaje trae
+    los timestamps Unix de "ahora" y del límite permitido, útiles para
+    depurar si esto vuelve a pasar.
 
-NO DOCUMENTADO / REQUIERE CONFIRMACIÓN CON TAXXA (no se pudo probar
-más allá de este punto sin un NIT ya dado de alta en su plataforma):
-  * La estructura exacta de la RESPUESTA cuando el documento SÍ se
-    acepta — dónde viene el CUFE, el QR, el estado, o los enlaces al
-    XML/PDF. submit_document() devuelve el JSON crudo tal cual llega,
-    sin intentar interpretarlo, hasta ver una respuesta real de éxito.
-  * El catálogo real de códigos de departamento/ciudad que exige TAXXA.
+CONFIRMADO — LLEGÓ HASTA LA DIAN DE VERDAD (12/09/2026): con NIT
+901402281, fecha correcta y la estructura de examples/invoice_con_propina.json,
+la respuesta ya NO fue un error de TAXXA sino un rechazo real y firmado
+de la DIAN (visto: request llegó completo, firmado XAdES, con
+ProviderID de TAXXA ante la DIAN). Esto confirma que TODA la tubería
+(Odoo → TAXXA → DIAN) funciona técnicamente. El documento fue
+RECHAZADO por reglas de negocio reales de la DIAN (numeración no
+autorizada para ese NIT/prefijo, nombre del vendedor no coincide con
+el RUT, departamento/municipio inconsistentes) — no por un problema de
+integración. Ejemplo completo guardado en
+examples/dian_response_rejected_example.xml.
+
+Estructura de la respuesta ya confirmada (antes marcada como "no
+documentada"):
+  * Éxito o rechazo, ambos devuelven HTTP 400/200 con:
+    {"rerror": N, "smessage": {"string": {"0": "...", ...}} (lista de
+    reglas violadas si rechaza), "jret": {"sreturnedxml": "<XML de la
+    DIAN, en base64>"}}.
+  * El XML decodificado es un ApplicationResponse UBL firmado. Dentro:
+    - <cbc:ResponseCode>04</cbc:ResponseCode> + <cbc:Description> =
+      resultado a nivel de documento ("04" = rechazado por la DIAN).
+    - Una lista de <cbc:ResponseCode>/<cbc:Description> por cada regla
+      violada (ej. "CDG01" = departamento no coincide con municipio).
+    - El CUFE SÍ se genera aunque el documento sea rechazado (es un
+      hash determinístico del contenido, no algo que la DIAN "asigna"
+      solo si acepta) — está en
+      <cbc:UUID schemeName="CUFE-SHA384">...</cbc:UUID>.
+  * Pendiente ver un ApplicationResponse de ACEPTACIÓN real (no se
+    logró: haría falta una numeración/resolución realmente autorizada
+    para el NIT de prueba, y el nombre legal exacto del RUT) — pero la
+    UBICACIÓN del CUFE ya no es una incógnita, y lo demás (QR/PDF) se
+    puede resolver una vez el documento sí sea aceptado, con las APIs
+    de descarga ya confirmadas (api-bajar-xml, api-consultar-factura).
+
+NO DOCUMENTADO / REQUIERE CONFIRMACIÓN CON TAXXA:
+  * El catálogo real de códigos de departamento/ciudad — sin él no se
+    puede armar un envío que la DIAN acepte, solo rechazos "correctos".
+  * Confirmar si el rechazo de prueba fue por datos genuinos mal
+    armados de este lado, o si el ambiente de pruebas de TAXXA siempre
+    devuelve el mismo rechazo "canned" sin importar el contenido
+    enviado (el sdocumentprefix que la DIAN reportó en la respuesta,
+    "SETP", no coincide con el que se envió, "PRU" — sugiere que sí
+    podría ser una respuesta fija de demostración, no un reflejo
+    dinámico de cada envío).
 """
 import logging
 
