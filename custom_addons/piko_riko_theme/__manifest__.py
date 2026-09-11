@@ -246,6 +246,13 @@ Fase 18:
     no código — se corrigió directamente en la base de datos para
     todos los productos vendibles).
 
+Fase 19:
+  * Catálogo del POS en lista en vez de cuadrícula de íconos: con
+    cientos de referencias y ninguna con foto cargada todavía, la
+    grilla solo mostraba una imagen rota repetida cientos de veces —
+    una lista compacta con el nombre es mucho más rápida de escanear.
+  * Se quita "Instalar aplicación" del menú (☰) del POS.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -299,6 +306,8 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
         'point_of_sale.assets_prod': [
             'piko_riko_theme/static/src/pos/pos_offline_notice.xml',
             'piko_riko_theme/static/src/pos/pos_branding.scss',
+            'piko_riko_theme/static/src/pos/pos_product_list.scss',
+            'piko_riko_theme/static/src/pos/pos_hide_install_app.xml',
         ],
     },
     'installable': True,

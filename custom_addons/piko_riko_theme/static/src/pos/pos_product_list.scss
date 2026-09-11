@@ -1,0 +1,58 @@
+// Fase 19 — catálogo del POS en lista, no en iconos.
+//
+// Ninguno de los productos tiene foto cargada todavía, así que la grilla
+// de "tarjetas" solo mostraba un cuadro de imagen rota repetido cientos de
+// veces — con cientos de referencias (pollo, embutidos, abarrotes...) una
+// lista compacta con el nombre es mucho más rápida de escanear que una
+// cuadrícula de íconos genéricos. Si más adelante cargan fotos reales, se
+// puede revisar esto para traer de vuelta una miniatura pequeña a la
+// izquierda de cada fila.
+.rightpane .product-list {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0 !important;
+
+    .product {
+        // .product ya es "article...d-flex align-items-stretch" desde el
+        // propio ProductCard — se voltea de columna (imagen arriba,
+        // nombre abajo) a fila completa, angosta y sin borde de tarjeta.
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start;
+        min-height: auto !important;
+        width: 100%;
+        border-radius: 0 !important;
+        border: none !important;
+        border-bottom: 1px solid $o-gray-200 !important;
+        padding: 0.65rem 0.9rem !important;
+
+        &:hover {
+            border-bottom-color: $o-gray-200 !important;
+        }
+    }
+
+    // Sin miniatura: no hay fotos cargadas, y en una fila angosta un
+    // ícono de imagen rota solo estorba.
+    .product-img {
+        display: none !important;
+    }
+
+    .product-content {
+        width: 100%;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .product-name {
+        -webkit-line-clamp: 1 !important;
+        font-size: 0.95rem;
+        text-align: left !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+    }
+
+    .product-cart-qty {
+        position: static !important;
+        margin-left: auto !important;
+    }
+}
