@@ -1,32 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Fase 8: rediseño de la página de inicio de sesión.
-         Cambios de plantilla mínimos (una clase en el body para acotar
-         el estilo, el logo y el pie de marca); el diseño visual vive
-         en static/src/scss/piko_riko_login.scss. -->
+    <!-- Fase 9: pantalla de acceso a dos paneles.
+         Panel izquierdo = identidad corporativa (tratamiento gráfico
+         de marca, sin foto). Panel derecho = acceso (correo +
+         contraseña) + indicadores de confianza.
+         El diseño visual vive en static/src/scss/piko_riko_login.scss.
+         La estructura reemplaza el contenedor centrado de Odoo pero
+         conserva <t t-out="0"/> (donde Odoo inyecta el formulario). -->
     <template id="login_layout_piko_riko" inherit_id="web.login_layout">
 
-        <!-- Clase en el <body> para acotar el estilo solo a las
-             pantallas de autenticación (login, recuperar contraseña...). -->
+        <!-- Clase en el <body> para acotar el estilo. -->
         <xpath expr="//t[@t-set='body_classname']" position="attributes">
-            <attribute name="t-value">'bg-100 o_piko_login'</attribute>
+            <attribute name="t-value">'o_piko_login'</attribute>
         </xpath>
 
-        <!-- Zona del logo: sin la línea divisoria dura, con más aire,
-             y una línea de bienvenida discreta debajo. -->
-        <xpath expr="//div[hasclass('pb-3') and hasclass('border-bottom')]" position="replace">
-            <div class="text-center o_piko_login_logo">
-                <img t-attf-src="/web/binary/company_logo{{ '?dbname='+db if db else '' }}" alt="Grupo Rico Pollo"/>
-                <div class="o_piko_login_welcome">Sistema de gestión contable</div>
+        <!-- Se reemplaza todo el contenedor centrado por la estructura
+             de dos paneles. -->
+        <xpath expr="//div[hasclass('container') and hasclass('py-5')]" position="replace">
+            <div class="o_piko_login_split">
+
+                <!-- ============ PANEL IZQUIERDO: MARCA ============ -->
+                <aside class="o_piko_brand">
+                    <div class="o_piko_brand_geo" aria-hidden="true"/>
+                    <div class="o_piko_brand_body">
+                        <div class="o_piko_brand_kicker">
+                            <span class="o_piko_brand_kicker_bar"/>
+                            DISTRIBUCIÓN QUE IMPULSA TU NEGOCIO
+                        </div>
+                        <h1 class="o_piko_brand_headline">
+                            Más que<br/>productos,<br/><strong>soluciones.</strong>
+                        </h1>
+                        <p class="o_piko_brand_sub">
+                            Sistema de gestión contable para una administración
+                            más eficiente, segura y confiable.
+                        </p>
+                        <ul class="o_piko_brand_benefits">
+                            <li>
+                                <span class="o_piko_ic">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v8a2 2 0 0 1-1 1.73l-7 4a2 2 0 0 1-2 0l-7-4A2 2 0 0 1 3 16V8a2 2 0 0 1 1-1.73l7-4a2 2 0 0 1 2 0l7 4A2 2 0 0 1 21 8z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                                </span>
+                                <span class="o_piko_bt">Inventario</span>
+                                <span class="o_piko_bd">Control total de tus productos</span>
+                            </li>
+                            <li>
+                                <span class="o_piko_ic">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 15l3-4 3 3 4-6"/></svg>
+                                </span>
+                                <span class="o_piko_bt">Contabilidad</span>
+                                <span class="o_piko_bd">Información confiable y en tiempo real</span>
+                            </li>
+                            <li>
+                                <span class="o_piko_ic">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v18l2-1.2L9 21l2-1.2L13 21l2-1.2L17 21l2-1.2V3l-2 1.2L15 3l-2 1.2L11 3 9 4.2 7 3Z"/><path d="M9 8h6"/><path d="M9 12h6"/><path d="M9 16h4"/></svg>
+                                </span>
+                                <span class="o_piko_bt">Facturación</span>
+                                <span class="o_piko_bd">Procesos ágiles y seguros</span>
+                            </li>
+                            <li>
+                                <span class="o_piko_ic">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+                                </span>
+                                <span class="o_piko_bt">Seguridad</span>
+                                <span class="o_piko_bd">Tu información siempre protegida</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="o_piko_brand_foot">
+                        <span class="o_piko_brand_foot_bar"/>
+                        <span>
+                            <strong>GRUPO RICO POLLO</strong>
+                            <span class="o_piko_brand_foot_tag">DISTRIBUIDORES MAYORISTAS</span>
+                        </span>
+                    </div>
+                </aside>
+
+                <!-- ============ PANEL DERECHO: ACCESO ============ -->
+                <main class="o_piko_access">
+                    <div class="o_piko_access_geo" aria-hidden="true"/>
+                    <div class="o_piko_access_inner">
+
+                        <div class="o_piko_access_head">
+                            <img class="o_piko_access_logo"
+                                 t-attf-src="/web/binary/company_logo{{ '?dbname='+db if db else '' }}"
+                                 alt="Grupo Rico Pollo"/>
+                            <div class="o_piko_access_title">Sistema de gestión contable</div>
+                            <div class="o_piko_access_subtitle">Ingresa tus credenciales para continuar</div>
+                        </div>
+
+                        <div class="o_piko_access_card">
+                            <t t-out="0"/>
+                        </div>
+
+                        <div class="o_piko_trust">
+                            <div class="o_piko_trust_item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+                                <span><strong>Acceso seguro</strong>Tus datos protegidos</span>
+                            </div>
+                            <div class="o_piko_trust_item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+                                <span><strong>Siempre disponible</strong>En la nube, 24/7</span>
+                            </div>
+                            <div class="o_piko_trust_item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><path d="M4 15a2 2 0 0 0 2 2h1v-5H6a2 2 0 0 0-2 2Z"/><path d="M20 15a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2Z"/><path d="M18 17a4 4 0 0 1-4 3h-2"/></svg>
+                                <span><strong>Soporte técnico</strong>Estamos para ayudarte</span>
+                            </div>
+                        </div>
+
+                        <div class="o_piko_access_foot">
+                            <div>GRUPO RICO POLLO — DISTRIBUIDORES MAYORISTAS</div>
+                            <div>© 2026. Todos los derechos reservados.</div>
+                        </div>
+
+                    </div>
+                </main>
+
             </div>
         </xpath>
 
-        <!-- Pie: marca de la empresa en vez de "Powered by Odoo".
-             "Distribuidores Mayoristas" ya va en el logo, así que el
-             pie queda solo con la razón social. -->
-        <xpath expr="//a[contains(@href, 'odoo.com')]" position="replace">
-            <span class="o_piko_login_brand">Grupo Rico Pollo S.A.S.</span>
-        </xpath>
+    </template>
 
+    <!-- El formulario de Odoo: se quita el selector de usuarios y se
+         muestra siempre el formulario de correo + contraseña. -->
+    <template id="login_form_piko_riko" inherit_id="web.login">
+        <xpath expr="//owl-component[@name='web.user_switch']" position="replace"/>
+        <xpath expr="//form[@role='form']" position="attributes">
+            <attribute name="t-attf-class">oe_login_form</attribute>
+        </xpath>
     </template>
 </odoo>

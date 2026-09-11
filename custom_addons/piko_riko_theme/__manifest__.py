@@ -118,6 +118,17 @@ Fase 8:
     static/src/scss/piko_riko_login.scss y aplica solo a las pantallas
     de autenticación.
 
+Fase 9:
+  * Pantalla de acceso rediseñada a dos paneles: izquierda identidad
+    corporativa (tratamiento gráfico de marca con la geometría del
+    logo, titular "Más que productos, soluciones", 4 beneficios),
+    derecha acceso con correo + contraseña, 3 indicadores de confianza
+    y pie legal. Responsive (tablet apila, móvil elimina el panel de
+    marca), modo oscuro. Se quita el selector de usuarios de Odoo: el
+    login siempre pide correo + contraseña.
+  * Se eliminan las cuentas de PRUEBA que se usaron para testear los
+    perfiles (scripts/borrar_usuarios_prueba.py).
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
