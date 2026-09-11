@@ -179,6 +179,53 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.o_pk_columns_trend {
+    grid-template-columns: 2fr 1fr;
+}
+
+.o_pk_chart_wrap {
+    position: relative;
+    height: 260px;
+}
+
+.o_pk_top_product {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.25rem;
+    border-top: 1px solid $o-gray-100;
+    font-size: 0.84rem;
+
+    &:first-of-type { border-top: 0; }
+
+    .o_pk_top_rank {
+        width: 1.4rem;
+        height: 1.4rem;
+        min-width: 1.4rem;
+        border-radius: 999px;
+        background: rgba($o-brand-primary, 0.12);
+        color: $o-brand-primary;
+        font-weight: 700;
+        font-size: 0.72rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .o_pk_top_name {
+        flex: 1;
+        color: $o-gray-800;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .o_pk_top_qty {
+        color: $o-gray-600;
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+    }
 }
 
 .o_pk_panel {
@@ -263,7 +310,8 @@
 
 // --- Responsive ---
 @media (max-width: 900px) {
-    .o_pk_columns { grid-template-columns: 1fr; }
+    .o_pk_columns,
+    .o_pk_columns_trend { grid-template-columns: 1fr; }
 }
 
 // --- Modo oscuro ---
@@ -293,4 +341,10 @@
     .o_pk_alert, .o_pk_activity { border-top-color: #2E2E2E; }
     .o_pk_activity .o_pk_activity_txt { color: #D6D6D6; }
     .o_pk_empty { color: #9AA0A6; }
+
+    .o_pk_top_product {
+        border-top-color: #2E2E2E;
+        .o_pk_top_name { color: #D6D6D6; }
+        .o_pk_top_qty { color: #9AA0A6; }
+    }
 }

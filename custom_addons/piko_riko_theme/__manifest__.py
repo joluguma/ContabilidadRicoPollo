@@ -144,6 +144,21 @@ Fase 10:
     "Actividad reciente" (últimos documentos con usuario y hora). Todo
     con datos reales; no toca ningún módulo funcional ni la navegación.
 
+Fase 11:
+  * Punto de Venta: el modo sin conexión YA es nativo de Odoo (guarda
+    los pedidos en el equipo y sincroniza solo al volver la señal) —
+    no se programó nada nuevo, solo se hizo más claro el aviso que ya
+    existía en la barra del POS (antes solo un ícono, ahora dice
+    "Sin conexión" en texto).
+  * Franja fija de módulos: segunda fila debajo de la barra superior,
+    siempre visible, con todos los módulos instalados (antes había que
+    abrir el menú de apps para verlos). Reusa los mismos datos/acciones
+    del menú de apps nativo, no duplica lógica.
+  * Dashboard: se agrega un gráfico "Ventas vs. compras (últimos 6
+    meses)" y una lista "Más vendidos (30 días)" — datos reales,
+    usando Chart.js (ya incluido en Odoo, no se agregó ninguna
+    librería nueva).
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -151,7 +166,7 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
 """,
     'author': 'Piko Riko',
     'license': 'LGPL-3',
-    'depends': ['web', 'sale', 'purchase', 'account', 'stock', 'mail'],
+    'depends': ['web', 'sale', 'purchase', 'account', 'stock', 'mail', 'point_of_sale'],
     'data': [
         'views/dashboard_menu.xml',
         'views/login_templates.xml',
@@ -177,12 +192,17 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.js',
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.xml',
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.scss',
+            'piko_riko_theme/static/src/nav/piko_riko_apps_strip.xml',
+            'piko_riko_theme/static/src/nav/piko_riko_apps_strip.scss',
         ],
         'web.report_assets_common': [
             'piko_riko_theme/static/src/scss/piko_riko_report_fix.scss',
         ],
         'web.assets_frontend': [
             'piko_riko_theme/static/src/scss/piko_riko_login.scss',
+        ],
+        'point_of_sale.assets_prod': [
+            'piko_riko_theme/static/src/pos/pos_offline_notice.xml',
         ],
     },
     'installable': True,

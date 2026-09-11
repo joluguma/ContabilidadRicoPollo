@@ -1,0 +1,63 @@
+// Franja fija de módulos (Fase 11) — segunda fila debajo de la barra
+// principal, siempre visible, para que los módulos no queden
+// escondidos detrás de un clic en el menú de apps.
+.o_piko_apps_strip {
+    display: flex;
+    align-items: stretch;
+    gap: 0.15rem;
+    padding: 0 0.5rem;
+    background: $o-gray-100;
+    border-bottom: 1px solid $o-gray-200;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar { height: 4px; }
+    &::-webkit-scrollbar-thumb { background: $o-gray-200; border-radius: 4px; }
+}
+
+.o_piko_apps_strip_item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex: 0 0 auto;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: $o-gray-700;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+
+    &:hover {
+        color: $o-gray-900;
+        background: rgba(0, 0, 0, 0.03);
+        text-decoration: none;
+    }
+
+    &.active {
+        color: $o-brand-primary;
+        border-bottom-color: $o-brand-primary;
+        font-weight: 700;
+    }
+}
+
+.o_piko_apps_strip_icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+
+@media (prefers-color-scheme: dark) {
+    .o_piko_apps_strip {
+        background: #1A1A1A;
+        border-bottom-color: #2E2E2E;
+    }
+    .o_piko_apps_strip_item {
+        color: #B8BEC7;
+        &:hover { color: #E8E8E8; background: rgba(255, 255, 255, 0.04); }
+        &.active { color: #F26A70; border-bottom-color: #F26A70; }
+    }
+}

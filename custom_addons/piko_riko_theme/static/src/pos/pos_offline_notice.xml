@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <!-- Fase 11: el Punto de Venta de Odoo YA guarda y sincroniza
+         pedidos sin internet de forma nativa (no hubo que programar
+         nada) — este ajuste solo hace más claro el aviso que ya existe
+         en la barra superior del POS (antes era solo un ícono de
+         cadena rota, sin texto), para que cualquier cajero entienda de
+         inmediato qué significa sin tener que preguntar. -->
+    <t t-inherit="point_of_sale.Navbar" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('oe_status')]" position="attributes">
+            <attribute name="t-att-title">this.pos.data.network.offline ? 'Sin conexión a internet — los pedidos se guardan en este equipo y se sincronizan solos al volver la señal' : 'Sincronizando pedidos pendientes…'</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('fa-chain-broken')]" position="after">
+            <span t-if="!ui.isSmall and this.pos.data.network.offline" class="ms-1 small fw-bold text-danger">Sin conexión</span>
+        </xpath>
+    </t>
+</templates>

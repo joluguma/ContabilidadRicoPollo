@@ -59,6 +59,29 @@
                     </t>
                 </div>
 
+                <!-- Tendencia + productos más vendidos -->
+                <div class="o_pk_columns o_pk_columns_trend">
+                    <div class="o_pk_panel o_pk_trend_panel">
+                        <h3><i class="fa fa-bar-chart me-2"/>Ventas vs. compras (últimos 6 meses)</h3>
+                        <div class="o_pk_chart_wrap">
+                            <canvas t-ref="trendCanvas"/>
+                        </div>
+                    </div>
+                    <div class="o_pk_panel">
+                        <h3><i class="fa fa-star-o me-2"/>Más vendidos (30 días)</h3>
+                        <t t-if="state.data.top_productos.length === 0">
+                            <div class="o_pk_empty">Sin ventas facturadas en este período.</div>
+                        </t>
+                        <t t-foreach="state.data.top_productos" t-as="tp" t-key="tp_index">
+                            <div class="o_pk_top_product">
+                                <span class="o_pk_top_rank" t-esc="tp_index + 1"/>
+                                <span class="o_pk_top_name" t-esc="tp.nombre"/>
+                                <span class="o_pk_top_qty" t-esc="num(tp.cantidad)"/>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+
                 <!-- Dos columnas: alertas + actividad -->
                 <div class="o_pk_columns">
                     <div class="o_pk_panel">

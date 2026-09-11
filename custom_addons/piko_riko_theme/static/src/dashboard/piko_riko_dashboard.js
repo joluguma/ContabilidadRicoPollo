@@ -1,8 +1,9 @@
-import { Component, onWillStart, useState } from "@odoo/owl";
+import { Component, onWillStart, useEffect, useRef, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { user } from "@web/core/user";
 import { session } from "@web/session";
+import { loadBundle } from "@web/core/assets";
 import { standardActionServiceProps } from "@web/webclient/actions/action_service";
 
 const PERIODS = [
@@ -35,7 +36,72 @@ class PikoRikoDashboard extends Component {
         this.periods = PERIODS;
         this.quickActions = QUICK_ACTIONS;
         this.state = useState({ data: null, loading: true, period: "month" });
+        this.trendCanvas = useRef("trendCanvas");
+        this.chart = null;
         onWillStart(() => this.loadData());
+        useEffect(
+            () => {
+                if (!this.state.loading && this.state.data) {
+                    this.renderChart();
+                }
+            },
+            () => [this.state.loading]
+        );
+    }
+
+    async renderChart() {
+        // Chart.js no viene cargado por defecto en el bundle del backend
+        // (es una librería pesada); Odoo la trae bajo demanda con este
+        // mismo mecanismo en sus propias vistas de gráfico.
+        await loadBundle("web.chartjs_lib");
+        if (!this.trendCanvas.el) return;
+        const t = this.state.data.tendencia;
+        if (this.chart) {
+            this.chart.destroy();
+        }
+        this.chart = new Chart(this.trendCanvas.el, {
+            type: "bar",
+            data: {
+                labels: t.labels,
+                datasets: [
+                    {
+                        label: "Ventas",
+                        data: t.ventas,
+                        backgroundColor: "#D71920",
+                        borderRadius: 4,
+                        maxBarThickness: 28,
+                    },
+                    {
+                        label: "Compras",
+                        data: t.compras,
+                        backgroundColor: "#D9D9D9",
+                        borderRadius: 4,
+                        maxBarThickness: 28,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: "index", intersect: false },
+                plugins: {
+                    legend: { position: "top", align: "end", labels: { boxWidth: 10, usePointStyle: true } },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => `${ctx.dataset.label}: ${this.money(ctx.parsed.y)}`,
+                        },
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { callback: (v) => this.money(v) },
+                        grid: { color: "#F0F0F0" },
+                    },
+                    x: { grid: { display: false } },
+                },
+            },
+        });
     }
 
     async loadData() {

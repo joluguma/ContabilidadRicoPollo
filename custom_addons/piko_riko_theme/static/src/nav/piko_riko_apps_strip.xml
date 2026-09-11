@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <!-- Fase 11: franja fija con todos los módulos, siempre visible
+         (antes había que abrir el menú de apps —ícono de cuadrícula—
+         para verlos). Se agrega como una segunda fila debajo de la
+         barra principal, reusando los mismos datos/acciones que ya
+         usa el menú de apps de Odoo (menuService, getMenuItemHref,
+         onNavBarDropdownItemSelection) — no se duplica lógica, solo se
+         hace permanente la lista que ya existía escondida en el menú. -->
+    <t t-inherit="web.NavBar" t-inherit-mode="extension">
+        <xpath expr="//nav[hasclass('o_main_navbar')]" position="after">
+            <div class="o_piko_apps_strip d-print-none" t-if="!this.ui.isSmall">
+                <t t-foreach="this.menuService.getApps()" t-as="app" t-key="app.id">
+                    <a href="#"
+                       t-att-href="getMenuItemHref(app)"
+                       t-attf-class="o_piko_apps_strip_item {{ currentApp and currentApp.id === app.id ? 'active' : '' }}"
+                       t-on-click.prevent="() => this.onNavBarDropdownItemSelection(app)"
+                       t-att-title="app.name">
+                        <img t-if="app.webIconData" t-att-src="app.webIconData" class="o_piko_apps_strip_icon"/>
+                        <i t-else="" class="o_piko_apps_strip_icon fa fa-th-large"/>
+                        <span t-esc="app.name"/>
+                    </a>
+                </t>
+            </div>
+        </xpath>
+    </t>
+</templates>

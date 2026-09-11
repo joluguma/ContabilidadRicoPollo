@@ -71,6 +71,54 @@ class PikoRikoDashboard(models.AbstractModel):
         return sum(purchases.mapped('amount_total'))
 
     @api.model
+    def _sales_trend(self, company, months=6):
+        """Ventas y compras de los últimos N meses (incluye el mes en
+        curso), para el gráfico de tendencia del dashboard."""
+        MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
+                 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
+        today = fields.Date.context_today(self)
+        month_start = today.replace(day=1)
+
+        periodos = []
+        cursor = month_start
+        for _i in range(months):
+            periodos.append(cursor)
+            cursor = (cursor - timedelta(days=1)).replace(day=1)
+        periodos.reverse()
+
+        labels, ventas, compras = [], [], []
+        for start in periodos:
+            if start.month == 12:
+                end = start.replace(year=start.year + 1, month=1)
+            else:
+                end = start.replace(month=start.month + 1)
+            labels.append('%s %s' % (MESES[start.month - 1], str(start.year)[2:]))
+            ventas.append(round(self._sales_total(start, end, company)))
+            compras.append(round(self._purchases_total(start, end, company)))
+
+        return {'labels': labels, 'ventas': ventas, 'compras': compras}
+
+    @api.model
+    def _top_products(self, company, limit=5):
+        """Productos más vendidos (por cantidad) en los últimos 30 días,
+        de líneas de factura de venta reales (no cotizaciones)."""
+        start = fields.Date.context_today(self) - timedelta(days=30)
+        lines = self.env['account.move.line'].search([
+            ('move_id.move_type', '=', 'out_invoice'),
+            ('move_id.state', '=', 'posted'),
+            ('move_id.company_id', '=', company.id),
+            ('move_id.invoice_date', '>=', start),
+            ('display_type', '=', 'product'),
+            ('product_id', '!=', False),
+        ])
+        por_producto = {}
+        for line in lines:
+            por_producto.setdefault(line.product_id, 0.0)
+            por_producto[line.product_id] += line.quantity
+        top = sorted(por_producto.items(), key=lambda kv: kv[1], reverse=True)[:limit]
+        return [{'nombre': p.display_name, 'cantidad': round(qty, 2)} for p, qty in top]
+
+    @api.model
     def _pct_change(self, current, previous):
         if not previous:
             return None
@@ -166,6 +214,8 @@ class PikoRikoDashboard(models.AbstractModel):
             'kpis': kpis,
             'alertas': alertas,
             'actividad': self._recent_activity(company),
+            'tendencia': self._sales_trend(company),
+            'top_productos': self._top_products(company),
         }
 
     @api.model
