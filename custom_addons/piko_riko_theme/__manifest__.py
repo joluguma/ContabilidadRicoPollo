@@ -176,6 +176,29 @@ Fase 13:
     (spreadsheet_dashboard) a pedido del cliente — el módulo propio
     "Dashboard" (nuestro centro de operaciones) se mantiene.
 
+Fase 14:
+  * Tirilla de venta rediseñada: mayor jerarquía visual del TOTAL (caja
+    con doble línea, tipografía grande), tipo y número de documento del
+    cliente mostrados con los campos reales de Odoo (identificación
+    colombiana ya nativa, no se inventó ningún campo), detalle de pago
+    con el desglose REAL por medio de pago (efectivo/tarjeta/etc.)
+    cuando la factura viene de una venta de Punto de Venta, y bloque de
+    observaciones si la factura tiene notas. Se agrega la opción
+    "Tirilla 58mm" junto a la de 80mm ya existente (menú Imprimir de la
+    factura), reutilizando el mismo diseño con tipografía y anchos
+    ajustados.
+  * Se agrega un QR de referencia del cliente (con su NOMBRE, nunca su
+    cédula/NIT) a modo de maqueta visual, a pedido explícito del
+    cliente para ver cómo se ve en la tirilla — pendiente de definir
+    con el cliente su uso definitivo.
+  * Se evalúo y se descartó deliberadamente agregar resolución DIAN,
+    CUFE y QR fiscal simulados/inventados: el sistema todavía no tiene
+    habilitación real ante la DIAN, y mostrar esos datos falsos
+    convertiría la tirilla en un documento que aparenta ser una factura
+    electrónica válida sin serlo (riesgo de falsedad documental/
+    tributaria) — se mantiene "FACTURA DE VENTA", tal como se decidió
+    en la Fase 2.5.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.

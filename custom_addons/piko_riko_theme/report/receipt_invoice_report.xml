@@ -1,26 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="report_invoice_receipt_document">
+    <!-- Cuerpo compartido de la tirilla. Recibe "receipt_width_mm" (58 o 80)
+         ya fijado por la plantilla que lo llama, para ajustar tipografía y
+         truncado de nombres largos sin duplicar todo el diseño. -->
+    <template id="report_invoice_receipt_body">
         <t t-foreach="docs" t-as="o">
             <!-- Tirilla independiente: no usa web.external_layout (pensado
                  para A4) — se arma desde cero, angosta y sin adornos, para
-                 que se vea bien en una impresora térmica de 80mm. -->
-            <div class="page piko_riko_receipt">
+                 que se vea bien en una impresora térmica. -->
+            <t t-set="is_narrow" t-value="receipt_width_mm == 58"/>
+            <div t-attf-class="page piko_riko_receipt {{ 'w58' if is_narrow else 'w80' }}">
                 <style>
                     .piko_riko_receipt { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 11px; color: #000; width: 100%; }
+                    .piko_riko_receipt.w58 { font-size: 9.5px; }
                     .piko_riko_receipt .center { text-align: center; }
-                    .piko_riko_receipt .logo { max-width: 55mm; max-height: 25mm; margin: 0 auto 4px auto; display: block; }
+                    .piko_riko_receipt .logo { max-width: 55mm; max-height: 22mm; margin: 0 auto 4px auto; display: block; }
+                    .piko_riko_receipt.w58 .logo { max-width: 36mm; max-height: 16mm; }
                     .piko_riko_receipt hr { border: none; border-top: 1px dashed #000; margin: 6px 0; }
                     .piko_riko_receipt table { width: 100%; border-collapse: collapse; }
                     .piko_riko_receipt td, .piko_riko_receipt th { padding: 1px 3px 1px 0; vertical-align: top; }
                     .piko_riko_receipt .items_table td:first-child { max-width: 34mm; word-wrap: break-word; }
+                    .piko_riko_receipt.w58 .items_table td:first-child { max-width: 20mm; }
                     .piko_riko_receipt .items_table td:not(:first-child) { white-space: nowrap; }
                     .piko_riko_receipt .right { text-align: right; }
                     .piko_riko_receipt .small { font-size: 9px; }
+                    .piko_riko_receipt.w58 .small { font-size: 8px; }
                     .piko_riko_receipt .bold { font-weight: bold; }
                     .piko_riko_receipt .title { font-size: 13px; font-weight: bold; }
+                    .piko_riko_receipt.w58 .title { font-size: 11px; }
                     .piko_riko_receipt .line_desc { padding-top: 3px; }
                     .piko_riko_receipt .label { color: #333; }
+                    .piko_riko_receipt .section_title { font-weight: bold; font-size: 10px; letter-spacing: 0.3px; }
+                    <!-- El total lleva la máxima jerarquía visual: doble
+                         línea y tipografía grande, pero sigue siendo texto
+                         plano (nada de fondos/color que gasten tinta térmica). -->
+                    .piko_riko_receipt .total_box { border-top: 2px solid #000; border-bottom: 2px solid #000; padding: 4px 0; margin: 6px 0; }
+                    .piko_riko_receipt .total_label { font-size: 11px; font-weight: bold; }
+                    .piko_riko_receipt .total_value { font-size: 20px; font-weight: bold; text-align: right; }
+                    .piko_riko_receipt.w58 .total_value { font-size: 16px; }
+                    .piko_riko_receipt .qr_block { margin: 6px 0; }
+                    .piko_riko_receipt .qr_block img { display: block; margin: 0 auto; }
                 </style>
 
                 <div class="center">
@@ -47,11 +66,13 @@
                 <hr/>
 
                 <!-- Encabezado deliberadamente dice "Factura de Venta" (sin
-                     "Electrónica") y no incluye CUFE ni código QR: esos solo
-                     los puede generar un sistema con habilitación real ante
-                     la DIAN (certificado digital), que este ERP todavía no
-                     tiene. Mostrar un CUFE/QR falso sería hacer pasar este
-                     documento por algo que no es. -->
+                     "Electrónica") y no incluye CUFE, resolución DIAN ni
+                     código QR fiscal: esos solo los puede generar un sistema
+                     con habilitación real ante la DIAN (certificado
+                     digital), que este ERP todavía no tiene. Mostrar esos
+                     datos inventados sería hacer pasar este documento por
+                     algo que no es (decisión confirmada con el cliente en
+                     Fase 13, no se debe "arreglar" agregándolos). -->
                 <div class="center title">
                     <span t-esc="'FACTURA DE VENTA' if o.move_type == 'out_invoice' else 'NOTA DE CRÉDITO'"/>
                     No. <span t-field="o.name"/>
@@ -76,14 +97,22 @@
 
                 <hr/>
 
-                <div class="bold small">DATOS DEL CLIENTE</div>
+                <div class="bold section_title">DATOS DEL CLIENTE</div>
                 <table class="small">
                     <tr>
                         <td class="label">Cliente</td>
                         <td colspan="3"><span t-field="o.partner_id.name"/></td>
                     </tr>
+                    <!-- Tipo + número de documento como campos estructurados
+                         reales de Odoo (l10n_latam_identification_type_id +
+                         vat), no texto suelto — esto ya viene nativo con la
+                         localización colombiana instalada, no se inventó
+                         ningún campo nuevo. -->
                     <tr t-if="o.partner_id.vat">
-                        <td class="label">NIT/C.C.</td>
+                        <td class="label">
+                            <span t-if="o.partner_id.l10n_latam_identification_type_id" t-field="o.partner_id.l10n_latam_identification_type_id.name"/>
+                            <span t-else="">NIT/C.C.</span>
+                        </td>
                         <td colspan="3"><span t-field="o.partner_id.vat"/></td>
                     </tr>
                     <tr t-if="o.partner_id.street">
@@ -99,6 +128,18 @@
                         <td colspan="3"><span t-field="o.partner_id.email"/></td>
                     </tr>
                 </table>
+
+                <!-- QR de referencia del cliente — a pedido del cliente,
+                     SOLO para ver cómo queda visualmente en la tirilla.
+                     Codifica el NOMBRE del cliente, nunca la cédula/NIT
+                     (evita exponer un dato sensible en un papel que
+                     cualquiera puede fotografiar). Pendiente definir con el
+                     cliente si esto se queda, para qué se usaría y con qué
+                     contenido definitivo — por ahora es solo maqueta visual. -->
+                <div class="qr_block center" t-if="o.partner_id.name">
+                    <img t-att-src="o._piko_qr_data_uri(o.partner_id.name)" width="60" height="60"/>
+                    <div class="small">Ref. cliente (no es documento fiscal)</div>
+                </div>
 
                 <hr/>
 
@@ -129,7 +170,7 @@
                      usa la propia vista de factura. Exento y Excluido
                      quedan separados porque son categorías DIAN distintas
                      (ver scripts/separar_grupos_iva_exento_excluido.py). -->
-                <div class="bold small">DETALLE DE IMPUESTOS</div>
+                <div class="bold section_title">DETALLE DE IMPUESTOS</div>
                 <table class="small">
                     <t t-foreach="o.tax_totals.get('subtotals', [])" t-as="subtotal">
                         <t t-foreach="subtotal.get('tax_groups', [])" t-as="tax_group">
@@ -143,19 +184,32 @@
                             </tr>
                         </t>
                     </t>
-                    <tr class="bold">
-                        <td>TOTAL</td>
-                        <td class="right"><span t-field="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
-                    </tr>
                 </table>
 
-                <hr/>
+                <div class="total_box">
+                    <table>
+                        <tr>
+                            <td class="total_label">TOTAL</td>
+                            <td class="total_value"><span t-field="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                        </tr>
+                    </table>
+                </div>
 
-                <!-- Estado de pago real (no se inventa un desglose por medio
-                     de pago -efectivo/tarjeta/Nequi- porque account.move no
-                     lo registra así de forma nativa; esto sí es dato real
-                     del sistema). -->
-                <table class="small">
+                <!-- Detalle de pago: si la factura viene de una venta de
+                     Punto de Venta, se muestra el desglose REAL por medio
+                     de pago (pos.payment, con su método e importe reales —
+                     nada inventado). Si es una factura normal (no-POS), se
+                     mantiene el estado de pago genérico de siempre, porque
+                     account.move no registra un desglose por medio de pago
+                     fuera de POS. -->
+                <div class="bold section_title">DETALLE DE PAGO</div>
+                <table class="small" t-if="o.pos_payment_ids">
+                    <tr t-foreach="o.pos_payment_ids" t-as="pay">
+                        <td><span t-field="pay.payment_method_id.name"/></td>
+                        <td class="right"><span t-field="pay.amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+                    </tr>
+                </table>
+                <table class="small" t-else="">
                     <tr t-if="o.payment_state == 'paid'" class="bold">
                         <td>PAGADO</td>
                         <td class="right"><span t-field="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
@@ -172,6 +226,16 @@
                     </t>
                 </table>
 
+                <!-- Observaciones: solo si el documento realmente tiene
+                     algo escrito en "Términos y condiciones" (o.narration) —
+                     no se inventa un texto fijo aparte del agradecimiento
+                     final, que ya está más abajo. -->
+                <t t-if="o.narration">
+                    <hr/>
+                    <div class="bold section_title">OBSERVACIONES</div>
+                    <div class="small" t-field="o.narration"/>
+                </t>
+
                 <hr/>
 
                 <div class="center small">
@@ -182,9 +246,25 @@
         </t>
     </template>
 
+    <template id="report_invoice_receipt_document">
+        <t t-set="receipt_width_mm" t-value="80"/>
+        <t t-call="piko_riko_theme.report_invoice_receipt_body"/>
+    </template>
+
+    <template id="report_invoice_receipt_document_58">
+        <t t-set="receipt_width_mm" t-value="58"/>
+        <t t-call="piko_riko_theme.report_invoice_receipt_body"/>
+    </template>
+
     <template id="report_invoice_receipt">
         <t t-call="web.basic_layout">
             <t t-call="piko_riko_theme.report_invoice_receipt_document"/>
+        </t>
+    </template>
+
+    <template id="report_invoice_receipt_58">
+        <t t-call="web.basic_layout">
+            <t t-call="piko_riko_theme.report_invoice_receipt_document_58"/>
         </t>
     </template>
 
@@ -196,6 +276,18 @@
         <field name="report_file">piko_riko_theme.report_invoice_receipt</field>
         <field name="print_report_name">'Tirilla - %s' % (object.name or '')</field>
         <field name="paperformat_id" ref="paperformat_receipt_80mm"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_invoice_receipt_58" model="ir.actions.report">
+        <field name="name">Factura - Tirilla 58mm</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">piko_riko_theme.report_invoice_receipt_58</field>
+        <field name="report_file">piko_riko_theme.report_invoice_receipt_58</field>
+        <field name="print_report_name">'Tirilla 58mm - %s' % (object.name or '')</field>
+        <field name="paperformat_id" ref="paperformat_receipt_58mm"/>
         <field name="binding_model_id" ref="account.model_account_move"/>
         <field name="binding_type">report</field>
     </record>
