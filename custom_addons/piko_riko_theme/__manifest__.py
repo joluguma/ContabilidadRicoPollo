@@ -167,6 +167,15 @@ Fase 12:
     Colapsable a solo íconos, con la preferencia guardada en el
     navegador de cada usuario.
 
+Fase 13:
+  * Íconos del menú vertical: se reemplazan los chips genéricos por
+    emoji reales, uno por módulo, elegidos junto con el cliente
+    (Inicio, Contactos, Ventas, Compras, Inventario, Facturación,
+    Punto de Venta, Empleados, Configuración). Se ocultan del menú (sin
+    desinstalar, reversible) los módulos "ERP Colombia" y "Tableros"
+    (spreadsheet_dashboard) a pedido del cliente — el módulo propio
+    "Dashboard" (nuestro centro de operaciones) se mantiene.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.

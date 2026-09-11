@@ -9,15 +9,14 @@
             <aside t-if="!this.ui.isSmall"
                    t-attf-class="o_piko_sidebar {{ pikoSidebarState.collapsed ? 'o_piko_sidebar_collapsed' : '' }}">
                 <div class="o_piko_sidebar_list">
-                    <t t-foreach="this.menuService.getApps()" t-as="app" t-key="app.id">
+                    <t t-foreach="this.pikoVisibleApps()" t-as="app" t-key="app.id">
                         <a href="#"
                            t-att-href="getMenuItemHref(app)"
                            t-attf-class="o_piko_sidebar_item {{ currentApp and currentApp.id === app.id ? 'active' : '' }}"
                            t-on-click.prevent="() => this.onNavBarDropdownItemSelection(app)"
                            t-att-title="app.name">
                             <span t-attf-class="o_piko_sidebar_icon o_piko_sidebar_icon_{{ app_index % 6 }}">
-                                <img t-if="app.webIconData" t-att-src="app.webIconData" alt=""/>
-                                <i t-else="" class="fa fa-th-large"/>
+                                <t t-esc="this.pikoAppIcon(app)"/>
                             </span>
                             <span class="o_piko_sidebar_label" t-esc="app.name"/>
                         </a>
