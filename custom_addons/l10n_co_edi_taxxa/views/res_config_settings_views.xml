@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Fase 1b: mismo formulario que ya existía en la ficha de la
+         compañía, pero también visible en Ajustes → Ajustes generales
+         (buscando "facturación" o "taxxa") — es donde el usuario lo
+         buscó primero. -->
+    <record id="res_config_settings_view_form_taxxa" model="ir.ui.view">
+        <field name="name">res.config.settings.form.taxxa</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='peppol']" position="after">
+                <block title="Facturación Electrónica (TAXXA)" name="taxxa_setting_container">
+                    <setting string="TAXXA" help="Proveedor tecnológico para emitir facturación electrónica ante la DIAN">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="l10n_co_taxxa_base_url" string="URL de la API" class="col-3 o_light_label"/>
+                                <field name="l10n_co_taxxa_base_url" class="col-9" placeholder="https://....taxxaapi.com/api.djson"/>
+                            </div>
+                            <div class="row">
+                                <label for="l10n_co_taxxa_email" string="Usuario (correo)" class="col-3 o_light_label"/>
+                                <field name="l10n_co_taxxa_email" class="col-9"/>
+                            </div>
+                            <div class="row">
+                                <label for="l10n_co_taxxa_password" string="Clave" class="col-3 o_light_label"/>
+                                <field name="l10n_co_taxxa_password" password="True" class="col-9"/>
+                            </div>
+                            <div class="row">
+                                <label for="l10n_co_taxxa_environment" string="Ambiente" class="col-3 o_light_label"/>
+                                <field name="l10n_co_taxxa_environment" class="col-9"/>
+                            </div>
+                            <div class="mt16">
+                                <button name="action_test_taxxa_connection" type="object"
+                                        string="Probar conexión" class="btn-secondary"/>
+                                <span class="text-muted ms-2" invisible="not l10n_co_taxxa_account">
+                                    Cuenta <field name="l10n_co_taxxa_account" readonly="1" nolabel="1" class="d-inline"/> —
+                                    último token: <field name="l10n_co_taxxa_token_date" readonly="1" nolabel="1" class="d-inline"/>
+                                </span>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

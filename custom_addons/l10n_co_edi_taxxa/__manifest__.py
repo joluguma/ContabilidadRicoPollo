@@ -38,6 +38,7 @@ tomado directamente de la documentación técnica pública de TAXXA
     'depends': ['account', 'l10n_co'],
     'data': [
         'views/res_company_views.xml',
+        'views/res_config_settings_views.xml',
     ],
     'installable': True,
     'application': False,
