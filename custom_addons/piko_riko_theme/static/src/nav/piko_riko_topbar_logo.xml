@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <!-- Fase 17: logo de la compañía arriba a la derecha, junto al nombre
+         que ya se mostraba ahí (selector de compañía) — a pedido del
+         cliente, para que la marca aparezca también al entrar al
+         sistema, no solo en el login. -->
+    <t t-inherit="web.SwitchCompanyMenu" t-inherit-mode="extension">
+        <xpath expr="//span[hasclass('oe_topbar_name')]" position="before">
+            <img class="o_piko_topbar_logo"
+                 t-attf-src="/web/image/res.company/{{ user.activeCompany.id }}/logo"
+                 alt=""/>
+        </xpath>
+    </t>
+</templates>

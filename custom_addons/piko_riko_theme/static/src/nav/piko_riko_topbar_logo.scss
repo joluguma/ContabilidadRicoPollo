@@ -1,0 +1,20 @@
+// Fase 17 — logo pequeño junto al nombre de la compañía, arriba a la derecha.
+.oe_topbar_name {
+    display: inline-flex;
+    align-items: center;
+}
+.o_piko_topbar_logo {
+    height: 22px;
+    width: auto;
+    max-width: 90px;
+    object-fit: contain;
+    margin-right: 8px;
+    border-radius: 3px;
+    // En modo oscuro el logo trae fondo blanco propio (ver el PNG) — se le
+    // pone un "chip" claro para que no se pierda contra el navbar oscuro,
+    // igual que ya se hace en la pantalla de login.
+    @media (prefers-color-scheme: dark) {
+        background: #fff;
+        padding: 2px 4px;
+    }
+}

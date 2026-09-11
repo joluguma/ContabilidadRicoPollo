@@ -223,6 +223,18 @@ Fase 16:
     vertical — un solo mapa por palabra clave que aplica en todas las
     apps sin mantener una lista distinta por cada una.
 
+Fase 17:
+  * El botón "Imprimir" de la factura (el de arriba, no el menú
+    "Imprimir → ...") ahora abre de una vez la tirilla con impresión
+    directa — antes abría la factura A4 estándar en inglés, sin QR,
+    porque ese botón usa un mecanismo distinto al menú de reportes
+    (no tenía nada que ver con la Fase 16). El botón "Enviar" (correo)
+    NO cambia: sigue adjuntando la factura A4 estándar, más adecuada
+    para un correo que la tirilla angosta.
+  * Logo de la compañía junto al nombre, arriba a la derecha (donde ya
+    se mostraba el nombre de la compañía) — antes solo aparecía en el
+    login y en los PDF.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -262,6 +274,8 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
             'piko_riko_theme/static/src/nav/piko_riko_submenu_icons.js',
             'piko_riko_theme/static/src/nav/piko_riko_submenu_icons.xml',
             'piko_riko_theme/static/src/nav/piko_riko_submenu_icons.scss',
+            'piko_riko_theme/static/src/nav/piko_riko_topbar_logo.xml',
+            'piko_riko_theme/static/src/nav/piko_riko_topbar_logo.scss',
             'piko_riko_theme/static/src/reports/tirilla_direct_print.js',
         ],
         'web.report_assets_common': [
