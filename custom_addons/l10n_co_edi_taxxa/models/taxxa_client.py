@@ -51,12 +51,30 @@ errores reales que devolvió TAXXA):
     "smessage": "..."} para errores de negocio (como el del NIT). El
     cliente de abajo revisa ambos campos.
 
+CONFIRMADO CON CREDENCIALES REALES (12/09/2026 — Grupo Rico Pollo ya
+tiene usuario/clave/URL reales de TAXXA para el ambiente de pruebas):
+  * TAXXA compartió ejemplos JSON completos y reales (no solo tablas
+    de campos) para factura, nota crédito y nota débito — están
+    guardados literalmente en examples/*.json (ver examples/README.md
+    para las inconsistencias de mayúsculas/minúsculas confirmadas
+    entre ellos, que hay que respetar tal cual al mapear cada tipo de
+    documento, no "corregir").
+  * Con el NIT real de Grupo Rico Pollo (901909286) como vendedor:
+    rerror 3344 — el NIT todavía no está dado de alta en la cuenta de
+    TAXXA (paso de onboarding pendiente de ellos, no de este código).
+  * Con el NIT de ejemplo de su propia documentación (901402281):
+    rerror 9371, "Error actualizacion, Documento NO Generado" — error
+    genérico, probable causa: los códigos de departamento/ciudad
+    (wdepartmentcode/wtowncode) deben ser códigos EXACTOS del catálogo
+    DIAN, no un número cualquiera — pendiente confirmar ese catálogo.
+
 NO DOCUMENTADO / REQUIERE CONFIRMACIÓN CON TAXXA (no se pudo probar
-más allá de este punto sin un NIT ya registrado en su plataforma):
+más allá de este punto sin un NIT ya dado de alta en su plataforma):
   * La estructura exacta de la RESPUESTA cuando el documento SÍ se
     acepta — dónde viene el CUFE, el QR, el estado, o los enlaces al
     XML/PDF. submit_document() devuelve el JSON crudo tal cual llega,
     sin intentar interpretarlo, hasta ver una respuesta real de éxito.
+  * El catálogo real de códigos de departamento/ciudad que exige TAXXA.
 """
 import logging
 
@@ -95,6 +113,17 @@ class TaxxaClient:
         try:
             data = response.json()
         except ValueError:
+            # Confirmado en vivo (12/09/2026): TAXXA tiene un firewall por
+            # IP ("ParetoFW") — si el servidor que llama no está en su
+            # lista blanca, responde 403 con una página HTML (no JSON)
+            # pidiendo contactar a soporte con la IP. Se detecta ese caso
+            # puntual para dar un mensaje accionable en vez de un genérico
+            # "403 Forbidden".
+            if response.status_code == 403 and 'Acceso Restringido' in response.text:
+                raise UserError(_(
+                    "TAXXA bloqueó la conexión por IP no autorizada (firewall ParetoFW). "
+                    "Hay que pedirle a soporte de TAXXA que autorice la IP de este "
+                    "servidor — el mensaje de ellos trae la IP exacta a reportar."))
             response.raise_for_status()
             raise UserError(_("TAXXA respondió algo que no es JSON válido:\n%s", response.text[:500]))
         return data

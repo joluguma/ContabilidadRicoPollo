@@ -1,0 +1,149 @@
+{
+    "sToken": "787375947077",
+    "jApi": {
+        "sMethod": "classTaxxa.fjDocumentAdd",
+        "jParams": {
+            "wEnvironment": "test",
+            "wVersionUBL": 2.1,
+            "jDocument": {
+                "wdocumenttype": "Invoice",
+                "wdocumenttypecode": "01",
+                "scustomizationid": "10",
+                "wcurrency": "COP",
+                "sdocumentprefix": "SETP",
+                "sdocumentsuffix": 99000000,
+                "tissuedate": "2024-03-18",
+                "tduedate": "2024-03-01",
+                "wpaymentmeans": 1,
+                "wpaymentmethod": "10",
+                "wbusinessregimen": 2,
+                "nlineextensionamount": 12038.77,
+                "ntaxexclusiveamount": 5121.27,
+                "ntaxinclusiveamount": 13862.50,
+                "npayableamount": 14562.50,
+                "rdocumenttemplate": null,
+                "snotes": "OBSERVACIONES",
+                "snotetop": "IVA Régimen Común No somos Agentes de Retención de IVA No somos Grandes Contribuyentes Actividad Económica ICA 4520 9.66 X 1000",
+                "jextrainfo": {
+                    "ssalespersonname": "Nombre del vendedor",
+                    "iitemscount": 1,
+                    "ilinescount": 1,
+                    "slocationname": "",
+                    "stotalinvoicewords": "Ocho mil ochosiento noventa y tres mil pesos MC/te",
+                    "ndelivery": 0
+                },
+                "jseller": {
+                    "wlegalorganizationtype": "person",
+                    "sfiscalresponsibilities": "R-99-PN",
+                    "sdocid": "901402281",
+                    "sdoctype": "NIT",
+                    "ssellername": "RAZON SOCIAL DEL VENDEDOR COMO SE  ENCUENTRA EN EL RUT",
+                    "ssellerbrand": "NOMBRE COMERCIAL DEL ESTABLECIMIENTO",
+                    "scontactperson": "NOMBRE PERSONA DE CONTACTO",
+                    "saddresszip": "110001",
+                    "wdepartmentcode": "11",
+                    "wtowncode ": "11001",
+                    "scityname": "BOGOTA",
+                    "jcontact": {
+                        "selectronicmail": "correo@correo.com",
+                        "jregistrationaddress": {
+                            "wdepartmentcode": "85",
+                            "scityname": "RIOHACHA - LA GUAJIRA",
+                            "saddressline1": "CL 13 11 75",
+                            "scountrycode": "CO",
+                            "wprovincecode": "44001",
+                            "szip": "440001",
+                            "sdepartmentname": "GUAJIRA"
+                        }
+                    }
+                },
+                "jbuyerpoints": {
+                    "0": {"sname": "Codigo", "sValue": "000000000"},
+                    "1": {"sname": "NombresApellidos", "sValue": "Nombre del beneficiario"},
+                    "2": {"sname": "Puntos", "sValue": "100"}
+                },
+                "jCajaPos": {
+                    "0": {"sname": "PlacaCaja", "sValue": "234566"},
+                    "1": {"sname": "UbicaciónCaja", "sValue": "Gilbarco Encore 4 L1 - Manguera 17 AC"},
+                    "2": {"sname": "Cajero", "sValue": "Pablito"},
+                    "3": {"sname": "TipoCaja", "sValue": "Caja de apoyo"},
+                    "4": {"sname": "CódigoVenta", "sValue": "743992"},
+                    "5": {"sname": "SubTotal", "sValue": "1000100"}
+                },
+                "aallowancecharge": {
+                    "0": {
+                        "schargeindicator": "true",
+                        "sallowancechargereason": "Propina",
+                        "sallowancechargereasoncode": "03",
+                        "smultiplierfactornumeric": "10",
+                        "namount": 700,
+                        "nbaseamount": 7000
+                    }
+                },
+                "jdocumentitems": {
+                    "2": {
+                        "sStandardItemIdentification": "SNL006",
+                        "nunitprice": 6917.5,
+                        "jextrainfo": {},
+                        "nquantity": 1,
+                        "icount": 1,
+                        "sdescription": "COCACOLA LIGHT",
+                        "snotes": "",
+                        "nusertotal": 6917.5,
+                        "jtax": {
+                            "jibua": {
+                                "nbaseamount": 0,
+                                "nbaseunitmeasuere": 150,
+                                "wunitcode": "MLT",
+                                "namount": 82.5,
+                                "sname": "IBUA",
+                                "nperunitamount": 55
+                            }
+                        }
+                    },
+                    "1": {
+                        "sStandardItemIdentification": "SNL007",
+                        "nunitprice": 5121.27,
+                        "jextrainfo": {},
+                        "nquantity": 1,
+                        "icount": 1,
+                        "sdescription": "COCACOLA REGULAR",
+                        "snotes": "",
+                        "nusertotal": 5121.27,
+                        "jtax": {
+                            "jicui": {"nrate": 10, "nbaseamount": 5121.27, "namount": 512.13, "sname": "ICUI"},
+                            "jiva": {"nrate": 16, "nbaseamount": 5121.27, "namount": 819.4, "sname": "IVA"},
+                            "jinc": {"nrate": 8, "nbaseamount": 5121.27, "namount": 409.7, "sname": "INC"}
+                        }
+                    }
+                },
+                "jbuyer": {
+                    "wlegalorganizationtype": "company",
+                    "scostumername": "xxxxxxxxxxxxxxxxxx",
+                    "stributaryidentificationkey": "01",
+                    "stributaryidentificationname": "IVA",
+                    "sfiscalresponsibilities": "R-99-PN",
+                    "sfiscalregime": "48",
+                    "jpartylegalentity": {
+                        "wdoctype": "Nit",
+                        "sdocno": "52816730",
+                        "scorporateregistrationschemename": "XXXXXXXXXXXXXXX"
+                    },
+                    "jcontact": {
+                        "scontactperson": "XXXXXXXXXXXXXXXXXXX",
+                        "selectronicmail": "xxxxxxxxxxxxxxxxxxxxxx",
+                        "stelephone": "0000000000000",
+                        "jregistrationaddress": {
+                            "scountrycode": "co",
+                            "wdepartmentcode": "11",
+                            "wtowncode": "11001",
+                            "scityname": "BOGOTA, D.C.",
+                            "saddressline1": "CRA 14 N 147 70 LOCAL 55",
+                            "szip": 0
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
