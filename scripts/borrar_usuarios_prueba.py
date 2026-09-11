@@ -1,60 +1,48 @@
-# Elimina las cuentas de PRUEBA (y su rastro) que se crearon para
-# testear los perfiles de acceso. Ya cumplieron su función.
+# Retira las cuentas de PRUEBA que se crearon para testear los perfiles
+# de acceso. Ya cumplieron su función.
 #
-#   - 4 usuarios @ricopollo.test (contador, facturación, lectura, portal)
-#   - el partner ficticio "PRUEBA - Cliente Portal"
-#   - la factura de ejemplo INV/2026/00011 (se pasa a borrador y se
-#     borra; queda un hueco en la numeración interna INV/2026 — no es
-#     la secuencia electrónica DIAN, así que es aceptable)
-#   - un borrador de factura de prueba que quedó sin confirmar
+#   - 4 usuarios @ricopollo.test -> se archivan (no pueden iniciar
+#     sesión, no aparecen en las listas). Se archiva en vez de borrar
+#     para evitar el cascade frágil de auth_signup/totp al hacer unlink.
+#   - el partner ficticio "PRUEBA - Cliente Portal" -> se archiva
+#   - la factura de ejemplo INV/2026/00011 -> se ANULA (queda con su
+#     número, marcada como cancelada; no se borra para no dejar hueco
+#     en la numeración). El borrador de factura de prueba sin confirmar
+#     sí se borra.
+#   - registro público de cuentas -> deshabilitado (solo por invitación)
 #
 # Ejecutar con:
 #   odoo-bin shell -c odoo.conf -d odoo19 --no-http < scripts/borrar_usuarios_prueba.py
-Users = env['res.users']
+Users = env['res.users'].with_context(active_test=False)
 users = Users.search([('login', 'like', '@ricopollo.test')])
 print('Usuarios de prueba:', users.mapped('login'))
 
-partner = env['res.partner'].search([('email', '=', 'prueba.portal@ricopollo.test')])
+partner = env['res.partner'].with_context(active_test=False).search(
+    [('email', '=', 'prueba.portal@ricopollo.test')])
 
-# 1) Facturas ligadas al partner ficticio o creadas por los usuarios prueba
+# 1) Facturas
 Move = env['account.move']
-moves = Move.search(['|',
-                     ('partner_id', 'in', partner.ids),
-                     ('create_uid', 'in', users.ids)])
-for m in moves:
-    print(f'  Factura {m.name or "(borrador)"} [{m.state}] -> se elimina')
+for m in Move.search([('partner_id', 'in', partner.ids)]):
+    print(f'  Factura {m.name or "(borrador)"} [{m.state}] -> anular')
     if m.state == 'posted':
         m.button_draft()
-    if m.state not in ('draft', 'cancel'):
         m.button_cancel()
-try:
-    moves.unlink()
-except Exception as e:
-    print('  (no se pudo borrar alguna factura, se deja cancelada):', e)
+for m in Move.search([('create_uid', 'in', users.ids), ('state', '=', 'draft')]):
+    print(f'  Borrador de prueba {m.id} -> borrar')
+    m.unlink()
 
-# 2) Usuarios (ANTES que el partner: no se puede archivar un contacto
-#    ligado a un usuario activo)
+# 2) Usuarios: archivar (sudo write directo, sin unlink)
 for u in users:
-    try:
-        u.unlink()
-        print(f'  Usuario {u.login} eliminado')
-    except Exception as e:
-        u.active = False
-        print(f'  Usuario {u.login} archivado (no se pudo borrar): {e}')
+    if u.active:
+        u.sudo().write({'active': False})
+        print(f'  Usuario {u.login} archivado')
 
-# 3) Partner ficticio
-if partner:
-    try:
-        partner.unlink()
-        print('  Partner ficticio eliminado')
-    except Exception as e:
-        partner.active = False
-        print('  Partner ficticio archivado (no se pudo borrar):', e)
+# 3) Partner ficticio: archivar
+if partner and partner.active:
+    partner.sudo().write({'active': False})
+    print('  Partner ficticio archivado')
 
-# 4) Deshabilitar el registro público de cuentas ("¿No tienes una
-#    cuenta?" en el login). Es un ERP interno: las cuentas se crean
-#    desde Ajustes, no se registra nadie solo. La recuperación de
-#    contraseña ("Restablecer contraseña") se deja activa.
+# 4) Registro público de cuentas -> solo por invitación
 env['ir.config_parameter'].sudo().set_param('auth_signup.invitation_scope', 'b2b')
 print('Registro público de cuentas deshabilitado (solo por invitación).')
 
