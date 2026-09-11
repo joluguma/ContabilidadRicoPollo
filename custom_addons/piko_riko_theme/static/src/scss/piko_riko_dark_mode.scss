@@ -75,6 +75,21 @@
         }
     }
 
+    // El menú de "Clientes/Proveedores/Reportes/..." de cada app
+    // (.o_menu_sections) trae su propio fondo claro por defecto que no
+    // queda cubierto por la regla de arriba — sin esto, el texto blanco
+    // quedaba sobre fondo blanco (invisible) en modo oscuro. Los items
+    // CON submenú son <button> con el fondo blanco por defecto de
+    // Bootstrap (.dropdown-toggle), que tampoco queda cubierto por el
+    // "*" de arriba porque background-color no es "color".
+    .o_menu_sections {
+        background-color: $o-gray-900 !important;
+
+        button {
+            background-color: transparent !important;
+        }
+    }
+
     // El amarillo/rojo de marca ya tienen buen contraste sobre fondo
     // oscuro — botones y badges de estado no necesitan ajuste.
 }

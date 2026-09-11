@@ -206,6 +206,23 @@ Fase 15:
     vista de vendedores), pero llevaba a una pantalla del backend que
     no hacía falta al solo revisar el pedido/factura del cliente.
 
+Fase 16:
+  * Impresión directa de la tirilla: al elegir "Imprimir → Factura -
+    Tirilla 80mm/58mm" ya no se descarga el PDF a la carpeta de
+    Descargas — se abre una pestaña con el diseño ya listo y el
+    navegador muestra de una vez el diálogo de imprimir (el usuario
+    solo confirma "Imprimir" una vez). Las opciones para descargar/
+    enviar el PDF normal se mantienen intactas para cuando sí haga
+    falta guardarlo o adjuntarlo a un correo.
+  * Se oculta el botón de grilla (⊞) arriba a la izquierda: abría el
+    mismo listado de apps que ya está siempre visible en el menú
+    vertical — quedaba redundante. Sigue disponible en pantallas
+    pequeñas, donde el menú vertical no se muestra.
+  * Íconos en el menú horizontal de cada app (Clientes, Proveedores,
+    Reportes, Configuración, etc.), igual que se hizo con el menú
+    vertical — un solo mapa por palabra clave que aplica en todas las
+    apps sin mantener una lista distinta por cada una.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -242,6 +259,10 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
             'piko_riko_theme/static/src/nav/piko_riko_sidebar.js',
             'piko_riko_theme/static/src/nav/piko_riko_sidebar.xml',
             'piko_riko_theme/static/src/nav/piko_riko_sidebar.scss',
+            'piko_riko_theme/static/src/nav/piko_riko_submenu_icons.js',
+            'piko_riko_theme/static/src/nav/piko_riko_submenu_icons.xml',
+            'piko_riko_theme/static/src/nav/piko_riko_submenu_icons.scss',
+            'piko_riko_theme/static/src/reports/tirilla_direct_print.js',
         ],
         'web.report_assets_common': [
             'piko_riko_theme/static/src/scss/piko_riko_report_fix.scss',

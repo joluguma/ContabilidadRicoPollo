@@ -1,0 +1,11 @@
+// Fase 16 — ícono antes de cada item del menú horizontal de cada app
+// (Clientes, Proveedores, Reportes, Configuración, etc.). El color es el
+// mismo que el texto (hereda de .o_menu_sections), así que ya cambia solo
+// en hover/activo sin reglas extra.
+.o_menu_sections .o_piko_section_icon {
+    font-size: 0.8em;
+    margin-right: 0.4em;
+    opacity: 0.75;
+    width: 1em;
+    text-align: center;
+}

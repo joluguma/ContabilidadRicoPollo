@@ -141,6 +141,17 @@ body.o_piko_sidebar_collapsed .o_action_manager {
 // usa el propio Odoo: ui.isSmall) — no correr el contenido ahí.
 @media (max-width: 768px) {
     .o_action_manager { margin-left: 0 !important; }
+    // En pantallas chicas SÍ hace falta el menú de apps nativo (es lo que
+    // abre el sidebar de apps en móvil), así que ahí no se oculta.
+    .o_navbar_apps_menu { display: initial; }
+}
+
+// El botoncito de grilla (⊞) arriba a la izquierda abre el mismo listado
+// de apps que ya está siempre visible en el menú vertical — quedaba
+// redundante, a pedido del cliente se oculta (solo en pantallas grandes,
+// donde el menú vertical reemplaza esa función).
+.o_navbar_apps_menu {
+    display: none;
 }
 
 @media (prefers-color-scheme: dark) {

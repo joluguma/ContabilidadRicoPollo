@@ -268,6 +268,49 @@
         </t>
     </template>
 
+    <!-- Versión "impresión directa": una página HTML mínima (sin
+         web.basic_layout, sin wkhtmltopdf de por medio) que se abre en una
+         pestaña nueva y dispara el diálogo nativo de impresión del
+         navegador apenas carga. Esto evita el flujo de "descargar el PDF y
+         abrirlo a mano" — el usuario solo confirma "Imprimir" una vez, en
+         vez de tener que ir a Descargas, abrir el archivo y ahí sí
+         imprimir. No reemplaza las acciones de arriba (esas siguen
+         existiendo para descargar/enviar por correo); un pequeño handler
+         JS (piko_riko_tirilla_direct_print) intercepta el clic en
+         "Imprimir → Tirilla" del menú y abre esta versión en vez de
+         descargar. -->
+    <template id="report_invoice_receipt_print">
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <style>
+                    @page { size: 80mm auto; margin: 0; }
+                    body { margin: 0; }
+                </style>
+            </head>
+            <body>
+                <t t-call="piko_riko_theme.report_invoice_receipt_document"/>
+                <script>window.onload = function () { window.print(); };</script>
+            </body>
+        </html>
+    </template>
+
+    <template id="report_invoice_receipt_print_58">
+        <html>
+            <head>
+                <meta charset="utf-8"/>
+                <style>
+                    @page { size: 58mm auto; margin: 0; }
+                    body { margin: 0; }
+                </style>
+            </head>
+            <body>
+                <t t-call="piko_riko_theme.report_invoice_receipt_document_58"/>
+                <script>window.onload = function () { window.print(); };</script>
+            </body>
+        </html>
+    </template>
+
     <record id="action_report_invoice_receipt" model="ir.actions.report">
         <field name="name">Factura - Tirilla 80mm</field>
         <field name="model">account.move</field>
@@ -290,5 +333,27 @@
         <field name="paperformat_id" ref="paperformat_receipt_58mm"/>
         <field name="binding_model_id" ref="account.model_account_move"/>
         <field name="binding_type">report</field>
+    </record>
+
+    <!-- Versiones "impresión directa": son ir.actions.report también
+         (hace falta el registro para que /report/html/ pueda resolverlas),
+         pero SIN binding_type/binding_model — no deben aparecer como una
+         tercera opción en el menú "Imprimir"; solo las usa nuestro propio
+         handler JS (tirilla_direct_print.js) para abrirlas en una pestaña
+         nueva cuando el usuario elige "Tirilla 80mm/58mm" desde ese menú. -->
+    <record id="action_report_invoice_receipt_print" model="ir.actions.report">
+        <field name="name">Factura - Tirilla 80mm (impresión directa)</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">piko_riko_theme.report_invoice_receipt_print</field>
+        <field name="report_file">piko_riko_theme.report_invoice_receipt_print</field>
+    </record>
+
+    <record id="action_report_invoice_receipt_print_58" model="ir.actions.report">
+        <field name="name">Factura - Tirilla 58mm (impresión directa)</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">piko_riko_theme.report_invoice_receipt_print_58</field>
+        <field name="report_file">piko_riko_theme.report_invoice_receipt_print_58</field>
     </record>
 </odoo>

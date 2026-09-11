@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <!-- Fase 16: ícono antes del texto de cada item del menú horizontal
+         (Clientes, Proveedores, Reportes, Configuración, etc.), igual que
+         se hizo con el menú vertical de apps. Es una plantilla SEPARADA de
+         "web.NavBar" (SectionsMenu tiene su propio t-name), por eso va en
+         su propio t-inherit. -->
+    <t t-inherit="web.NavBar.SectionsMenu" t-inherit-mode="extension">
+        <!-- Item sin submenú: el texto se pasa como contenido por defecto
+             vía "t-esc" (atajo de OWL para llenar el slot con texto
+             escapado) — se reemplaza por contenido explícito con el
+             ícono delante, sin tocar la lógica de click/hotkey/atributos. -->
+        <xpath expr="//DropdownItem" position="attributes">
+            <attribute name="t-esc"></attribute>
+        </xpath>
+        <xpath expr="//DropdownItem" position="inside">
+            <i t-attf-class="fa {{ this.pikoSectionIcon(section) }} o_piko_section_icon"/>
+            <t t-esc="section.name"/>
+        </xpath>
+
+        <!-- Item CON submenú (dropdown): el texto vive en un <span> plano,
+             más simple de extender. -->
+        <xpath expr="//span[@t-esc='section.name']" position="before">
+            <i t-attf-class="fa {{ this.pikoSectionIcon(section) }} o_piko_section_icon"/>
+        </xpath>
+    </t>
+</templates>
