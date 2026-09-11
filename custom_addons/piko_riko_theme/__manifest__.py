@@ -235,6 +235,17 @@ Fase 17:
     se mostraba el nombre de la compañía) — antes solo aparecía en el
     login y en los PDF.
 
+Fase 18:
+  * Logo de la compañía en la pantalla del Punto de Venta (arriba,
+    centrado, cuando no hay una orden activa — así lo muestra el
+    propio POS de Odoo). No es código nuevo: POS ya traía el mecanismo,
+    solo mostraba el logo de Odoo por defecto porque nadie lo había
+    apuntado al logo real.
+  * Se corrigió que la caja no mostraba NINGÚN producto: ninguno de
+    los productos tenía marcada la casilla "Disponible en PdV" (dato,
+    no código — se corrigió directamente en la base de datos para
+    todos los productos vendibles).
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -287,6 +298,7 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
         ],
         'point_of_sale.assets_prod': [
             'piko_riko_theme/static/src/pos/pos_offline_notice.xml',
+            'piko_riko_theme/static/src/pos/pos_branding.scss',
         ],
     },
     'installable': True,

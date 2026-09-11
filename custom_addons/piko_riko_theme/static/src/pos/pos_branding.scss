@@ -1,0 +1,9 @@
+// Fase 18: logo de la compañía en la pantalla del Punto de Venta.
+// El propio navbar.scss de POS ya trae el mecanismo (una variable CSS,
+// con el logo de Odoo como reserva) — solo hacía falta apuntarla al logo
+// real de la compañía. Se ve en la franja central de arriba cuando no hay
+// una orden activa (así lo diseñó Odoo, para no estorbar mientras se
+// vende).
+:root {
+    --navbar-logo: url('/web/binary/company_logo');
+}
