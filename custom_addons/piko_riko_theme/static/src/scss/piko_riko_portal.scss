@@ -1,0 +1,15 @@
+// Oculta el aviso "Esta es una vista previa del portal de clientes" que
+// Odoo muestra cuando un usuario INTERNO (vendedor/administrador) navega
+// una página del portal — nunca lo ve un cliente real navegando desde su
+// propio enlace, es exclusivo de la vista previa administrativa
+// (portal.portal_back_in_edit_mode, mostrado solo a sales_team.group_sale_salesman).
+// Se pidió quitarlo porque redirige a una parte del backend que no hace
+// falta al revisar pedidos/facturas desde el portal como administrador.
+// Ojo: este aviso se inserta como HERMANO de .o_portal_wrap (justo antes,
+// dentro de <main>), no como descendiente — por eso el selector NO
+// depende de esa clase como ancestro. La combinación de clases sí es
+// exclusiva de este aviso (ver portal.portal_back_in_edit_mode /
+// o_portal_fullwidth_alert en el core de Odoo).
+.alert.alert-dismissible.d-print-none.css_editable_mode_hidden {
+    display: none !important;
+}

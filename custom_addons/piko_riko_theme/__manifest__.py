@@ -199,6 +199,13 @@ Fase 14:
     tributaria) — se mantiene "FACTURA DE VENTA", tal como se decidió
     en la Fase 2.5.
 
+Fase 15:
+  * Se oculta el aviso "Esta es una vista previa del portal de clientes"
+    que aparece al navegar el portal como usuario interno (vendedor/
+    administrador) — un cliente real nunca lo ve (es exclusivo de la
+    vista de vendedores), pero llevaba a una pantalla del backend que
+    no hacía falta al solo revisar el pedido/factura del cliente.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -241,6 +248,7 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
         ],
         'web.assets_frontend': [
             'piko_riko_theme/static/src/scss/piko_riko_login.scss',
+            'piko_riko_theme/static/src/scss/piko_riko_portal.scss',
         ],
         'point_of_sale.assets_prod': [
             'piko_riko_theme/static/src/pos/pos_offline_notice.xml',
