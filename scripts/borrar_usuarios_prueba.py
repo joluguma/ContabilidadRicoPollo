@@ -25,23 +25,15 @@ for m in moves:
     print(f'  Factura {m.name or "(borrador)"} [{m.state}] -> se elimina')
     if m.state == 'posted':
         m.button_draft()
-    if m.state != 'draft':
+    if m.state not in ('draft', 'cancel'):
         m.button_cancel()
 try:
     moves.unlink()
 except Exception as e:
     print('  (no se pudo borrar alguna factura, se deja cancelada):', e)
 
-# 2) Partner ficticio
-if partner:
-    try:
-        partner.unlink()
-        print('  Partner ficticio eliminado')
-    except Exception as e:
-        partner.active = False
-        print('  Partner ficticio archivado (no se pudo borrar):', e)
-
-# 3) Usuarios
+# 2) Usuarios (ANTES que el partner: no se puede archivar un contacto
+#    ligado a un usuario activo)
 for u in users:
     try:
         u.unlink()
@@ -49,6 +41,15 @@ for u in users:
     except Exception as e:
         u.active = False
         print(f'  Usuario {u.login} archivado (no se pudo borrar): {e}')
+
+# 3) Partner ficticio
+if partner:
+    try:
+        partner.unlink()
+        print('  Partner ficticio eliminado')
+    except Exception as e:
+        partner.active = False
+        print('  Partner ficticio archivado (no se pudo borrar):', e)
 
 # 4) Deshabilitar el registro público de cuentas ("¿No tienes una
 #    cuenta?" en el login). Es un ERP interno: las cuentas se crean
