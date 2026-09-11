@@ -159,6 +159,14 @@ Fase 11:
     usando Chart.js (ya incluido en Odoo, no se agregó ninguna
     librería nueva).
 
+Fase 12:
+  * El menú de módulos pasa de franja horizontal (Fase 11) a menú
+    vertical, de arriba a abajo, a pedido explícito del cliente —
+    reemplaza la franja, no coexisten. Cada módulo lleva un ícono en
+    un chip de color (paleta fija rotativa, "íconos llamativos").
+    Colapsable a solo íconos, con la preferencia guardada en el
+    navegador de cada usuario.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -192,8 +200,9 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.js',
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.xml',
             'piko_riko_theme/static/src/dashboard/piko_riko_dashboard.scss',
-            'piko_riko_theme/static/src/nav/piko_riko_apps_strip.xml',
-            'piko_riko_theme/static/src/nav/piko_riko_apps_strip.scss',
+            'piko_riko_theme/static/src/nav/piko_riko_sidebar.js',
+            'piko_riko_theme/static/src/nav/piko_riko_sidebar.xml',
+            'piko_riko_theme/static/src/nav/piko_riko_sidebar.scss',
         ],
         'web.report_assets_common': [
             'piko_riko_theme/static/src/scss/piko_riko_report_fix.scss',

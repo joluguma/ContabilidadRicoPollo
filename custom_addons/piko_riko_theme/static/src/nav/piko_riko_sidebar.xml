@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <!-- Fase 12: menú de módulos vertical, de arriba a abajo, con
+         íconos llamativos (chip de color por módulo). Reemplaza la
+         franja horizontal de la Fase 11. Colapsable (solo íconos) con
+         la preferencia guardada en el navegador. -->
+    <t t-inherit="web.NavBar" t-inherit-mode="extension">
+        <xpath expr="//nav[hasclass('o_main_navbar')]" position="after">
+            <aside t-if="!this.ui.isSmall"
+                   t-attf-class="o_piko_sidebar {{ pikoSidebarState.collapsed ? 'o_piko_sidebar_collapsed' : '' }}">
+                <div class="o_piko_sidebar_list">
+                    <t t-foreach="this.menuService.getApps()" t-as="app" t-key="app.id">
+                        <a href="#"
+                           t-att-href="getMenuItemHref(app)"
+                           t-attf-class="o_piko_sidebar_item {{ currentApp and currentApp.id === app.id ? 'active' : '' }}"
+                           t-on-click.prevent="() => this.onNavBarDropdownItemSelection(app)"
+                           t-att-title="app.name">
+                            <span t-attf-class="o_piko_sidebar_icon o_piko_sidebar_icon_{{ app_index % 6 }}">
+                                <img t-if="app.webIconData" t-att-src="app.webIconData" alt=""/>
+                                <i t-else="" class="fa fa-th-large"/>
+                            </span>
+                            <span class="o_piko_sidebar_label" t-esc="app.name"/>
+                        </a>
+                    </t>
+                </div>
+                <button type="button" class="o_piko_sidebar_toggle"
+                        t-on-click="togglePikoSidebar"
+                        t-att-title="pikoSidebarState.collapsed ? 'Expandir menú' : 'Colapsar menú'">
+                    <i class="fa" t-attf-class="{{ pikoSidebarState.collapsed ? 'fa-angle-double-right' : 'fa-angle-double-left' }}"/>
+                    <span t-if="!pikoSidebarState.collapsed">Colapsar</span>
+                </button>
+            </aside>
+        </xpath>
+    </t>
+</templates>

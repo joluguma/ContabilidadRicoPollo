@@ -1,0 +1,161 @@
+// Fase 12 — Menú de módulos vertical (reemplaza la franja horizontal
+// de la Fase 11, a pedido del cliente). Íconos llamativos: cada
+// módulo lleva un chip de color propio (rotando una paleta fija, no
+// al azar) para que sean fáciles de ubicar de un vistazo.
+
+$piko-sidebar-w: 220px;
+$piko-sidebar-w-collapsed: 64px;
+$piko-navbar-h: 46px; // altura real de .o_main_navbar (ver navbar.variables.scss)
+
+.o_piko_sidebar {
+    position: fixed;
+    top: $piko-navbar-h;
+    left: 0;
+    bottom: 0;
+    width: $piko-sidebar-w;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    background: $o-white;
+    border-right: 1px solid $o-gray-200;
+    transition: width 0.15s ease;
+    overflow: hidden;
+
+    &.o_piko_sidebar_collapsed {
+        width: $piko-sidebar-w-collapsed;
+
+        .o_piko_sidebar_label,
+        .o_piko_sidebar_toggle span {
+            display: none;
+        }
+        .o_piko_sidebar_item {
+            justify-content: center;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .o_piko_sidebar_toggle {
+            justify-content: center;
+        }
+    }
+}
+
+.o_piko_sidebar_list {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 0.6rem 0.5rem;
+}
+
+.o_piko_sidebar_item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.55rem 0.65rem;
+    margin-bottom: 0.2rem;
+    border-radius: 0.6rem;
+    color: $o-gray-700;
+    font-size: 0.86rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: background 0.12s ease, color 0.12s ease;
+    white-space: nowrap;
+
+    &:hover {
+        background: $o-gray-100;
+        color: $o-gray-900;
+        text-decoration: none;
+    }
+
+    &.active {
+        background: rgba($o-brand-primary, 0.08);
+        color: $o-brand-primary;
+        font-weight: 700;
+        border-left-color: $o-brand-primary;
+    }
+}
+
+.o_piko_sidebar_icon {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    border-radius: 0.55rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    img { width: 18px; height: 18px; object-fit: contain; }
+    i { font-size: 0.95rem; }
+}
+
+// Paleta rotativa de chips — "íconos llamativos" pedidos por el
+// cliente, distintos por módulo pero dentro de una paleta controlada
+// (no arcoíris al azar).
+$piko-sidebar-palette: (
+    #D71920, // rojo de marca
+    #B7791F, // ámbar oscurecido (mejor contraste que el amarillo puro)
+    #0E9488, // teal
+    #2563EB, // azul
+    #1E8E3E, // verde (éxito)
+    #C2410C, // naranja quemado
+);
+@for $i from 0 through 5 {
+    .o_piko_sidebar_icon_#{$i} {
+        $c: nth($piko-sidebar-palette, $i + 1);
+        background: rgba($c, 0.13);
+        color: $c;
+    }
+}
+
+.o_piko_sidebar_toggle {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    border: 0;
+    border-top: 1px solid $o-gray-200;
+    background: $o-gray-100;
+    color: $o-gray-600;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.65rem 0.9rem;
+
+    &:hover { background: $o-gray-200; color: $o-gray-900; }
+}
+
+// Correr el contenido a la derecha del menú (viven en subárboles de
+// DOM distintos; la clase se sincroniza en <body> desde el JS).
+// OJO: se usa .o_action_manager, NO .o_content — las acciones cliente
+// (ej. este mismo dashboard) no siempre traen un .o_content
+// envolviendo, pero .o_action_manager sí está presente siempre.
+.o_action_manager {
+    margin-left: $piko-sidebar-w;
+    transition: margin-left 0.15s ease;
+}
+body.o_piko_sidebar_collapsed .o_action_manager {
+    margin-left: $piko-sidebar-w-collapsed;
+}
+// En pantallas chicas el sidebar no se muestra (mismo criterio que
+// usa el propio Odoo: ui.isSmall) — no correr el contenido ahí.
+@media (max-width: 768px) {
+    .o_action_manager { margin-left: 0 !important; }
+}
+
+@media (prefers-color-scheme: dark) {
+    .o_piko_sidebar {
+        background: #1A1A1A;
+        border-right-color: #2E2E2E;
+    }
+    .o_piko_sidebar_item {
+        color: #B8BEC7;
+        &:hover { background: rgba(255, 255, 255, 0.05); color: #E8E8E8; }
+        &.active { background: rgba(#F26A70, 0.14); color: #F26A70; border-left-color: #F26A70; }
+    }
+    .o_piko_sidebar_toggle {
+        background: #1F1F1F;
+        border-top-color: #2E2E2E;
+        color: #9AA0A6;
+        &:hover { background: #262626; color: #E8E8E8; }
+    }
+}
