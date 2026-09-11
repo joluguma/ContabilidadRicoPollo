@@ -6,23 +6,25 @@
 #     para evitar el cascade frágil de auth_signup/totp al hacer unlink.
 #   - el partner ficticio "PRUEBA - Cliente Portal" -> se archiva
 #   - la factura de ejemplo INV/2026/00011 -> se ANULA (queda con su
-#     número, marcada como cancelada; no se borra para no dejar hueco
-#     en la numeración). El borrador de factura de prueba sin confirmar
-#     sí se borra.
+#     número, marcada como cancelada). Los borradores de prueba sin
+#     confirmar se borran.
 #   - registro público de cuentas -> deshabilitado (solo por invitación)
 #
 # Ejecutar con:
 #   odoo-bin shell -c odoo.conf -d odoo19 --no-http < scripts/borrar_usuarios_prueba.py
-Users = env['res.users'].with_context(active_test=False)
-users = Users.search([('login', 'like', '@ricopollo.test')])
+users = env['res.users'].with_context(active_test=False).search(
+    [('login', 'like', '@ricopollo.test')])
 print('Usuarios de prueba:', users.mapped('login'))
 
-partner = env['res.partner'].with_context(active_test=False).search(
-    [('email', '=', 'prueba.portal@ricopollo.test')])
+# OJO: el partner se busca/escribe SIN active_test=False. Si se arrastra
+# ese contexto, la validación interna de res.partner.write ("no se puede
+# archivar un contacto con usuario activo") hace un search de usuarios
+# que incluye a los ya archivados y falla igual.
+partner = env['res.partner'].search([('email', '=', 'prueba.portal@ricopollo.test')])
 
 # 1) Facturas
 Move = env['account.move']
-for m in Move.search([('partner_id', 'in', partner.ids)]):
+for m in Move.search([('partner_id', '=', partner.id)] if partner else [('id', '=', 0)]):
     print(f'  Factura {m.name or "(borrador)"} [{m.state}] -> anular')
     if m.state == 'posted':
         m.button_draft()
@@ -31,18 +33,14 @@ for m in Move.search([('create_uid', 'in', users.ids), ('state', '=', 'draft')])
     print(f'  Borrador de prueba {m.id} -> borrar')
     m.unlink()
 
-# 2) Usuarios: archivar (sudo write directo, sin unlink)
+# 2) Usuarios: archivar
 for u in users:
     if u.active:
         u.sudo().write({'active': False})
         print(f'  Usuario {u.login} archivado')
-
-# Forzar el guardado a la BD para que la validación del partner
-# ("no se puede archivar un contacto con usuario activo") vea los
-# usuarios ya inactivos.
 env.flush_all()
 
-# 3) Partner ficticio: archivar
+# 3) Partner ficticio: archivar (contexto limpio)
 if partner and partner.active:
     partner.sudo().write({'active': False})
     print('  Partner ficticio archivado')
