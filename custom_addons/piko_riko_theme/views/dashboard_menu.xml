@@ -5,9 +5,16 @@
         <field name="tag">piko_riko_dashboard</field>
     </record>
 
+    <!-- Fase 21: el Dashboard es un centro de operaciones (ventas,
+         compras, cartera, inventario) — no debe verlo un usuario que
+         solo tiene acceso al POS (ej. un cajero). Se restringe a
+         quien tenga acceso real a alguna de esas áreas; un usuario
+         con SOLO el grupo de POS no cae en ninguno de estos grupos,
+         así que no le aparece. -->
     <menuitem id="menu_piko_riko_dashboard_root"
               name="Dashboard"
               action="action_piko_riko_dashboard"
               sequence="1"
+              groups="sales_team.group_sale_salesman,account.group_account_invoice,stock.group_stock_user,purchase.group_purchase_user"
               web_icon="piko_riko_theme,static/description/icon.png"/>
 </odoo>

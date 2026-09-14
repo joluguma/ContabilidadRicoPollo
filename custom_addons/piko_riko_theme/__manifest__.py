@@ -261,6 +261,12 @@ Fase 20:
     Odoo ya resuelve (respeta listas de precios/descuentos), solo
     cambia cuándo se muestra.
 
+Fase 21:
+  * El Dashboard (nuestro centro de operaciones) ya no le aparece a un
+    usuario que solo tenga acceso al Punto de Venta — antes lo veían
+    todos los usuarios internos sin excepción. Necesario para poder
+    crear cuentas de cajero que solo vean POS.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
