@@ -274,6 +274,13 @@ Fase 22:
     búsqueda deja un solo resultado, Enter lo agrega directo sin
     necesidad de bajar con la flecha primero.
 
+Fase 23:
+  * Ahora también se puede recorrer el tique (las líneas ya agregadas
+    a la venta) con las flechas ↑↓←→, sin necesidad de estar buscando
+    un producto — mismo comportamiento que hacer clic sobre la línea
+    (queda resaltada), listo para editar su cantidad o borrarla con
+    Backspace (ver la ayuda que ya se dio para eso).
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -333,6 +340,7 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
             'piko_riko_theme/static/src/pos/pos_product_search_keyboard.js',
             'piko_riko_theme/static/src/pos/pos_product_search_keyboard.xml',
             'piko_riko_theme/static/src/pos/pos_product_search_keyboard.scss',
+            'piko_riko_theme/static/src/pos/pos_orderline_keyboard.js',
         ],
     },
     'installable': True,
