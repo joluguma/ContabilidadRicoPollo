@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <!-- Fase 22: marca visualmente cuál producto queda "resaltado" al
+         navegar la lista de resultados de búsqueda con las flechas
+         (la lógica de cuál índice está resaltado vive en
+         pos_product_search_keyboard.js). -->
+    <t t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension">
+        <xpath expr="//ProductCard" position="attributes">
+            <attribute name="class">pos.productViewMode + (product_index === state.highlightedProductIndex &amp;&amp; pos.searchProductWord.trim() ? ' o_piko_search_highlight' : '')</attribute>
+        </xpath>
+    </t>
+</templates>

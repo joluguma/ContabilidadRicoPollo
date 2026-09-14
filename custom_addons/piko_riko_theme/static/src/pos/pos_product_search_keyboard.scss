@@ -1,0 +1,9 @@
+// Fase 22 — resaltado del producto seleccionado con las flechas al
+// buscar. Mismo color de acento que el resto del sistema, con buen
+// contraste tanto si la lista está en modo lista (Fase 19) como en
+// cuadrícula.
+.rightpane .product-list .product.o_piko_search_highlight {
+    background: rgba($o-brand-primary, 0.12) !important;
+    border-color: $o-brand-primary !important;
+    box-shadow: inset 0 0 0 2px $o-brand-primary;
+}

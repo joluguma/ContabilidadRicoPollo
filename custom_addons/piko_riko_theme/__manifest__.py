@@ -267,6 +267,13 @@ Fase 21:
     todos los usuarios internos sin excepción. Necesario para poder
     crear cuentas de cajero que solo vean POS.
 
+Fase 22:
+  * Al buscar un producto en el POS, la lista de resultados ya se
+    puede recorrer con las flechas (↑↓←→) y agregar el resaltado con
+    Enter — sin soltar el teclado para hacer clic con el mouse. Si la
+    búsqueda deja un solo resultado, Enter lo agrega directo sin
+    necesidad de bajar con la flecha primero.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -323,6 +330,9 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
             'piko_riko_theme/static/src/pos/pos_product_list.scss',
             'piko_riko_theme/static/src/pos/pos_hide_install_app.xml',
             'piko_riko_theme/static/src/pos/pos_orderline_price.js',
+            'piko_riko_theme/static/src/pos/pos_product_search_keyboard.js',
+            'piko_riko_theme/static/src/pos/pos_product_search_keyboard.xml',
+            'piko_riko_theme/static/src/pos/pos_product_search_keyboard.scss',
         ],
     },
     'installable': True,
