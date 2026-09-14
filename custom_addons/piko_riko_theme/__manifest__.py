@@ -253,6 +253,14 @@ Fase 19:
     una lista compacta con el nombre es mucho más rápida de escanear.
   * Se quita "Instalar aplicación" del menú (☰) del POS.
 
+Fase 20:
+  * En el tique (carrito) del POS, cada línea muestra siempre el
+    precio unitario y el código del producto debajo del nombre (antes
+    Odoo solo lo mostraba cuando la cantidad era distinta de 1). No se
+    inventa ningún cálculo nuevo: se reutiliza el mismo precio que
+    Odoo ya resuelve (respeta listas de precios/descuentos), solo
+    cambia cuándo se muestra.
+
 Pendiente para fases siguientes (ver ARCHITECTURE.md):
   * Vistas de inventario/productos con badges de stock.
   * Vista kanban de cotizaciones con badges de estado.
@@ -308,6 +316,7 @@ Pendiente para fases siguientes (ver ARCHITECTURE.md):
             'piko_riko_theme/static/src/pos/pos_branding.scss',
             'piko_riko_theme/static/src/pos/pos_product_list.scss',
             'piko_riko_theme/static/src/pos/pos_hide_install_app.xml',
+            'piko_riko_theme/static/src/pos/pos_orderline_price.js',
         ],
     },
     'installable': True,
